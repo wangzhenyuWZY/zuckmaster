@@ -12,16 +12,15 @@
                         <div class="max">{{saleData.edition}} #{{ saleData.id }}</div>
                         <div class="rank">Rank：<span :class="saleData.rank === 'N' ? 'n' : saleData.rank === 'R' ? 'r' : saleData.rank === 'SR' ? 'sr' : saleData.rank === 'SSR' ? 'ssr' : ''">{{ saleData.rank }}</span></div>
                     </div>
-                    <div class="btn-box">
-                        <div @click="openDialog">For sale</div>
-                        <div class="buy">BUY</div>
+                    <div class="btn-box" v-if="!isSell">
+                        <div v-show="isMe" @click="showPop = true">For sale</div>
                     </div>
-                    <div class="btn-box">
-                        <div @click="openDialog">For sale</div>
-                        <div class="buy">BUY</div>
+                    <div class="btn-box" v-if="isSell">
+                        <div @click="cancelNft" v-show="isMe">Cancel Listing</div>
+                        <div class="buy" v-show="!isMe" @click="buyNft">BUY</div>
                     </div>
                     <div class="price-desc">
-                        <div class="price">1.5 BNB <img src="../assets/myBox/b_an.png" alt=""></div>
+                        <div class="price">{{buyprice}} BNB <img src="../assets/myBox/b_an.png" alt=""></div>
                         <div class="desc">
                             Zuckerberg's MAX series will include Crazy MAX,Mad MAX ,King MAX  and Mars MAX.Their rank is N, R, SR and SSR . Each N, R, SR and SSR used to offset  single transaction tax and ZUCKSwap'fee dividend and also Get dividends from ZUCK Mammon.
                         </div>
@@ -65,8 +64,8 @@
             </div>
         </div>
         <Footer />
-
-        <div class="dialog-box">
+        <Pop :tokenId="saleData.id" v-if="showPop" @onClose='showPop = false' @sellSuc="sellSuc"/>
+        <!-- <div class="dialog-box">
             <el-dialog
                 v-model="dialog"
                 title="List for sell"
@@ -90,7 +89,7 @@
                 </span>
                 </template>
             </el-dialog>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -98,33 +97,23 @@
     import Header from '../components/Header.vue'
     import Footer from '../components/Footer.vue'
     import { defineComponent, ref } from 'vue'
-    import { ElMessageBox } from 'element-plus'
+    import { ElMessage } from 'element-plus'
+    import Pop from './pop.vue'
+    import BigNumber from 'bignumber.js'
     export default {
         name: 'saleDetail',
-        components: { Header, Footer },
+        components: { Header, Footer, Pop },
         data() {
             return {
-                saleList: [
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'N', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'SR', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'SSR', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 }
-                ],
-
                 saleData: {},
                 defaultAccount:'',
                 dialog: false,
                 priceVal: '',
                 isMe:false,
                 isSell:false,
-                contract:null
+                contract:null,
+                showPop:false,
+                buyprice:0
             }
         },
         methods: {
@@ -139,8 +128,30 @@
                 this.priceVal = ''
                 this.dialog = false
             },
+            sellSuc(){
+                this.getMyCol()
+            },
             async getMyCol(){
-                let myRes = await this.$eth.c.zuckFactory.getNFTsByAccount(this.defaultAccount)
+                this.myRes = []
+                let balance = await this.$eth.c.zuckNft.balanceOf(this.defaultAccount)
+                balance = parseInt(balance)
+                if (!balance) return
+                const promises = []
+                for (let i = 0; i < balance; i++) {
+                    const p = async () => {
+                        let tokenId = await this.$eth.c.zuckNft.tokenOfOwnerByIndex(this.defaultAccount, i)
+                        return { tokenId }
+                    }
+                    promises.push(p())
+                }
+                const res = await Promise.allSettled(promises)
+                let myRes = []
+                for (let item of res) {
+                    // console.log(item)
+                    if (item.status !== 'fulfilled') continue
+                    const tokenId = this.utils.toHex(item.value.tokenId)
+                    myRes.push(tokenId)
+                }
                 if(myRes){
                     let thiscol = myRes.filter((item) => {
                         return parseInt(item) == this.saleData.id
@@ -149,16 +160,50 @@
                         this.isMe = true
                     }
                 }
-                let sellRes = await this.$axios.get('/api/getSellListing')
+                let sellRes = await this.$axios.get('/api/getSellListing/0/0/0/0/0')
                 if(sellRes.status === 200){
-                    let thiscol = res.data.filter((item)=>{
+                    let thiscol = sellRes.data.filter((item)=>{
                         return item.id == this.saleData.id
                     })
                     if(thiscol.length>0){
                         this.isSell = true
+                        let buyprice = await this.$eth.c.zuckFactory.getListingNFTPrice(this.saleData.id)
+                        this.buyprice = this.$eth.utils.formatEther(buyprice)
                     }
                 }
             },
+            async cancelNft(){
+                let res = await this.$eth.c.zuckFactory.cancelListingNFT(this.saleData.id)
+                await res.wait()
+                this.$emit('onClose')
+                ElMessage({
+                    message: 'Success',
+                    type: 'success',
+                })
+                this.getMyCol()
+            },
+            async buyNft(){
+                // if(this.isApproved){
+                    // let price = this.$eth.utils.parseEther(this.buyprice)
+                    // console.log(price)
+                    let price = new BigNumber(this.buyprice)
+                    price = price.times(Math.pow(10,18))
+                    price = price.plus(1)
+                    let res = await this.$eth.c.zuckFactory.purchaseNFT(this.saleData.id,{value:price.toFixed()})
+                    await res.wait()
+                    this.$emit('onClose')
+                    ElMessage({
+                        message: 'Success',
+                        type: 'success',
+                    })
+                    this.getMyCol()
+                    this.$router.push('/myCollection')
+                // }else{
+                //     let res = await this.$eth.c.zuckToken.approve(this.$eth.c.zuckFactory.address, '100000000000000000000000000000000000000000000000')
+                //     await res.wait()
+                //     this.isApproved = true
+                // }
+            }
         },
         async created () {
             this.defaultAccount = await this.$eth.signer.getAddress()

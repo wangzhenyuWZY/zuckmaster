@@ -68,13 +68,15 @@
             </div>
 
             <div class="content">
-                <div v-for="item, index of saleList" :key="index" class="item-box" :class="index !== 0 && parseInt((index + 1) / 5) == parseFloat((index + 1) / 5)  ? '' : 'item-five'" @click="toDetails(index)">
+                <div v-for="item, index of saleList" :key="index" class="item-box" :class="index !== 0 && parseInt((index + 1) / 5) == parseFloat((index + 1) / 5)  ? '' : 'item-five'" @click="toDetails(item)">
                     <img src="../assets/myBox/box_img5.png" alt="">
                     <div class="max-rank">
                         <div class="max">Crazy MAX #{{ item.max }}</div>
                         <div class="rank">Rank: <span :class="item.rank === 'N' ? 'n' : item.rank === 'R' ? 'r' : item.rank === 'SR' ? 'sr' : item.rank === 'SSR' ? 'ssr' : ''">{{ item.rank }}</span></div>
                     </div>
-                    <div class="btn">For sale</div>
+                    <div class="btn" v-show="item.isMe && !item.isSell">For sale</div>
+                    <div class="btn" v-show="item.isMe && item.isSell">Cancel Listing</div>
+                    <div class="btn" v-show="!item.isMe && item.isSell">BUY</div>
                     <div class="price">
                         <span>Price</span>
                         <span>{{ item.price }} <img class="" src="../assets/myBox/b_an.png" alt=""></span>
@@ -124,28 +126,60 @@
                 rankList: [ 'N', 'R', 'SR', 'SSR' ],
                 bgList: [ 'Farm', 'Earth', 'Moon', 'Mar' ],
 
-                saleList: [
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'N', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'SR', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'SSR', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                    { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 }
-                ],
-
+                saleList: [],
+                defaultAccount:null,
                 currentPage: 1
             }
         },
         methods: {
-            async getInfos(){
+            async getMyIds(){
+                // 查询用户拥有的卡牌
+                this.myRes = []
+                let balance = await this.$eth.c.zuckNft.balanceOf(this.defaultAccount)
+                balance = parseInt(balance)
+                if (!balance) return
+                const promises = []
+                for (let i = 0; i < balance; i++) {
+                    const p = async () => {
+                        let tokenId = await this.$eth.c.zuckNft.tokenOfOwnerByIndex(this.defaultAccount, i)
+                        return { tokenId }
+                    }
+                    promises.push(p())
+                }
+                const res = await Promise.allSettled(promises)
+                let myRes = []
+                for (let item of res) {
+                    // console.log(item)
+                    if (item.status !== 'fulfilled') continue
+                    const tokenId = this.utils.toHex(item.value.tokenId)
+                    myRes.push(tokenId)
+                }
+                this.myRes = myRes
+                this.getSellList()
+            },
+            async getAllList(){
+                this.saleList = []
                 let res = await this.$axios.get('/api/all/maskpolling')
                 if(res.status === 200){
-                    this.nftList = res.data
+                    this.saleList = res.data
+                }
+            },
+            async getSellList(){
+                this.saleList = []
+                let sellRes = await this.$axios.get('/api/getSellListing/0/0/0/0/0')
+                if(sellRes.status === 200){
+                    sellRes.data.forEach((item) => {
+                        let thiscol = this.myRes.filter((ktem) => {
+                            return parseInt(ktem) == item.id
+                        })
+                        if(thiscol.length>0){
+                            item.isMe = true
+                        }else{
+                            item.isMe = false
+                        }
+                        item.isSell = true
+                        this.saleList.push(item)
+                    })
                 }
             },
             // 获取本地指定文件夹所有图片
@@ -186,39 +220,22 @@
             changeNav(nav) {
                 this.navFor = nav
                 if (nav === 1) {
-                    this.saleList = [
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'N', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'SR', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'SSR', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 }
-                    ]
+                    this.saleList = [ ]
                 } else {
-                    this.saleList = [
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'N', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'SR', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'SSR', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 }
-                    ]
+                    this.saleList = []
                 }
 
             },
-            toDetails(index) {
-                this.$router.push({ path: '/saleDetail', query: { index }})
+            toDetails(item) {
+                debugger
+                this.$router.push({ path: '/saleDetail', query: { item:JSON.stringify(item) }})
             },
             handleSizeChange() {},
             handleCurrentChange() {}
         },
         async created(){
             this.defaultAccount = await this.$eth.signer.getAddress()
-            this.getInfos()
+            this.getMyIds()
         }
     }
 </script>

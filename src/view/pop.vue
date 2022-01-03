@@ -12,8 +12,6 @@
         <span class="right">1.5 BNB</span>
       </div>
       <el-button class="btn" @click="sellNft">Post your Listing</el-button>
-      <el-button class="btn" @click="cancelNft">下架</el-button>
-      <el-button class="btn" @click="buyNft">购买</el-button>
     </div>
   </div>
 </template>
@@ -37,22 +35,27 @@ export default {
   },
   methods: {
     async getInfo(){
+      let addr = await this.$eth.c.zuckFactory.maxNFTAddr()
+      console.log(addr)
       this.isApprovedForAll = await this.$eth.c.zuckNft.isApprovedForAll(this.defaultAccount, this.$eth.c.zuckFactory.address)
       let isApproved = await this.$eth.c.zuckToken.allowance(this.defaultAccount, this.$eth.c.zuckFactory.address)
       if(parseInt(isApproved)){
         this.isApproved = true
       }
-      this.buyprice = await this.$eth.c.zuckFactory.getNFTPrice(this.tokenId)
+      let buyprice = await this.$eth.c.zuckFactory.getListingNFTPrice(this.tokenId)
+      this.buyprice = this.$eth.utils.formatEther(buyprice)
+      console.log(this.buyprice)
     },
     async sellNft(){
       if(this.isApprovedForAll){
-          let res = await this.$eth.c.zuckFactory.addListingNFT(this.tokenId,this.price)
+          let res = await this.$eth.c.zuckFactory.addListingNFT(this.tokenId,this.$eth.utils.parseEther(String(this.price)))
           await res.wait()
           this.$emit('onClose')
           ElMessage({
               message: 'Success',
               type: 'success',
           })
+          this.$emit('sellSuc')
       }else{
           let res = await this.$eth.c.zuckNft.setApprovalForAll(this.$eth.c.zuckFactory.address, true)
           await res.wait()
@@ -72,19 +75,20 @@ export default {
       })
     },
     async buyNft(){
-      if(this.isApproved){
-        let res = await this.$eth.c.zuckFactory.purchaseNFT(this.tokenId,{value:this.buyprice})
+      // if(this.isApproved){
+        let res = await this.$eth.c.zuckFactory.purchaseNFT(this.tokenId,{value:this.$eth.utils.parseEther(String(this.buyprice))})
         await res.wait()
         this.$emit('onClose')
         ElMessage({
             message: 'Success',
             type: 'success',
         })
-      }else{
-        let res = await this.$eth.c.zuckToken.approve(this.$eth.c.zuckFactory.address, '100000000000000000000000000000000000000000000000')
-        await res.wait()
-        this.isApproved = true
-      }
+      // }
+      // else{
+      //   let res = await this.$eth.c.zuckToken.approve(this.$eth.c.zuckFactory.address, '100000000000000000000000000000000000000000000000')
+      //   await res.wait()
+      //   this.isApproved = true
+      // }
     }
   },
   async created(){

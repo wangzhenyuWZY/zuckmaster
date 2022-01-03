@@ -174,7 +174,6 @@
             </div>
         </div>
         <Footer />
-        <Pop/>
     </div>
 </template>
 
@@ -184,10 +183,9 @@
     import Swiper from "Swiper";
     import 'swiper/css/swiper.css'
     import { ElMessage } from 'element-plus'
-    import Pop from './pop.vue'
     export default {
         name: 'MysteryBoxes',
-        components: { Header, Footer,Pop },
+        components: { Header, Footer },
         data() {
             return {
                 number: 1,
