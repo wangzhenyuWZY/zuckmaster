@@ -6,11 +6,11 @@
                 <div v-for="item, index of saleList" :key="index" class="item-box" :class="index !== 0 && parseInt((index + 1) / 5) == parseFloat((index + 1) / 5)  ? '' : 'item-five'" @click="toDetails(item)">
                     <img :src="item.imgurl" alt="">
                     <div class="max-rank">
-                        <div class="max">{{item.edition}} #{{ item.id }}</div>
+                        <div class="max">{{item.edition}} #{{ item.tokenId }}</div>
                         <div class="rank">Rank: <span :class="item.rank === 'N' ? 'n' : item.rank === 'R' ? 'r' : item.rank === 'SR' ? 'sr' : item.rank === 'SSR' ? 'ssr' : ''">{{ item.rank }}</span></div>
                     </div>
-                    <div class="btn" @click.stop="toSell(item.id)" v-show="!item.isSell">For sale</div>
-                    <div class="btn" @click.stop="cancelNft(item.id)" v-show="item.isSell">Cancel Listing</div>
+                    <div class="btn" @click.stop="toSell(item.tokenId)" v-show="!item.isSell">For sale</div>
+                    <div class="btn" @click.stop="cancelNft(item.tokenId)" v-show="item.isSell">Cancel Listing</div>
                     <div class="price" v-show="false">
                         <span>Price</span>
                         <span>{{ item.price }} <img class="" src="../assets/myBox/b_an.png" alt=""></span>
@@ -77,7 +77,7 @@
         methods: {
             async getInfos(){
                 let res = await this.$axios.get('/api/all/maskpolling')
-                let sellRes = await this.$axios.get('/api/getSellListing/0/0/0/0/0')
+                let sellRes = await this.$axios.get('/api/getSellListing/0/0/0/0')
                 if(sellRes.status === 200){
                     this.sellList = sellRes.data
                 }
@@ -111,7 +111,7 @@
                     myRes.forEach((item,index) => {
                         let cur = this.nftList[parseInt(item) - 1]
                         let selldata = this.sellList.filter((ktem)=>{
-                            return ktem.id == item
+                            return ktem.tokenId == item
                         })
                         if(selldata.length>0){
                             cur.isSell = true

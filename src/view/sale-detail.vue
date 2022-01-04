@@ -9,7 +9,7 @@
                 </div>
                 <div class="info-cont">
                     <div class="max-rank">
-                        <div class="max">{{saleData.edition}} #{{ saleData.id }}</div>
+                        <div class="max">{{saleData.edition}} #{{ saleData.tokenId }}</div>
                         <div class="rank">Rank：<span :class="saleData.rank === 'N' ? 'n' : saleData.rank === 'R' ? 'r' : saleData.rank === 'SR' ? 'sr' : saleData.rank === 'SSR' ? 'ssr' : ''">{{ saleData.rank }}</span></div>
                     </div>
                     <div class="btn-box" v-if="!isSell">
@@ -28,7 +28,7 @@
                     <div class="chain">Blockchain Details</div>
                     <div class="contract">
                         Contract Address :{{contract}}
-                        <br>Token ID :{{ saleData.id }}
+                        <br>Token ID :{{ saleData.tokenId }}
                         <br>Blockchain:Binance Smart Chain
                     </div>
                     <div class="history">
@@ -154,7 +154,7 @@
                 }
                 if(myRes){
                     let thiscol = myRes.filter((item) => {
-                        return parseInt(item) == this.saleData.id
+                        return parseInt(item) == this.saleData.tokenId
                     })
                     if(thiscol.length>0){
                         this.isMe = true
@@ -163,17 +163,17 @@
                 let sellRes = await this.$axios.get('/api/getSellListing/0/0/0/0/0')
                 if(sellRes.status === 200){
                     let thiscol = sellRes.data.filter((item)=>{
-                        return item.id == this.saleData.id
+                        return item.tokenId == this.saleData.tokenId
                     })
                     if(thiscol.length>0){
                         this.isSell = true
-                        let buyprice = await this.$eth.c.zuckFactory.getListingNFTPrice(this.saleData.id)
+                        let buyprice = await this.$eth.c.zuckFactory.getListingNFTPrice(this.saleData.tokenId)
                         this.buyprice = this.$eth.utils.formatEther(buyprice)
                     }
                 }
             },
             async cancelNft(){
-                let res = await this.$eth.c.zuckFactory.cancelListingNFT(this.saleData.id)
+                let res = await this.$eth.c.zuckFactory.cancelListingNFT(this.saleData.tokenId)
                 await res.wait()
                 this.$emit('onClose')
                 ElMessage({
@@ -189,7 +189,7 @@
                     let price = new BigNumber(this.buyprice)
                     price = price.times(Math.pow(10,18))
                     price = price.plus(1)
-                    let res = await this.$eth.c.zuckFactory.purchaseNFT(this.saleData.id,{value:price.toFixed()})
+                    let res = await this.$eth.c.zuckFactory.purchaseNFT(this.saleData.tokenId,{value:price.toFixed()})
                     await res.wait()
                     this.$emit('onClose')
                     ElMessage({

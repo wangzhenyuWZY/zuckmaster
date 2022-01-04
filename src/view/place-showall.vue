@@ -170,7 +170,7 @@
                 if(sellRes.status === 200){
                     sellRes.data.forEach((item) => {
                         let thiscol = this.myRes.filter((ktem) => {
-                            return parseInt(ktem) == item.id
+                            return parseInt(ktem) == item.tokenId
                         })
                         if(thiscol.length>0){
                             item.isMe = true

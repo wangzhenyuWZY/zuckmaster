@@ -13,13 +13,13 @@ const addrKey = [
 ]
 export const prodAddrs = fillZeroAddr({
   zuckToken: '0x03abf81d33e675b7df45ce832b1269cf7a4b3269',
-  zuckFactory:'0x81289B70b0cDFC9fC72E5e44Da7e3C1cA7eb85db',
+  zuckFactory:'0xff2B8CCd2358320da21DAd1E9E4b4641f03F5ae4',
   zuckNft:'0x97f5FEd1c9fe1Ca68ac7938a319aEB4eD85A5680'
 })
 
 export const testAddrs = fillZeroAddr({
   zuckToken: '0x03abf81d33e675b7df45ce832b1269cf7a4b3269',
-  zuckFactory:'0x81289B70b0cDFC9fC72E5e44Da7e3C1cA7eb85db',
+  zuckFactory:'0xff2B8CCd2358320da21DAd1E9E4b4641f03F5ae4',
   zuckNft:'0x97f5FEd1c9fe1Ca68ac7938a319aEB4eD85A5680'
 })
 function fillZeroAddr (addrs) {
