@@ -4,7 +4,7 @@
         <div class="colPanel">
             <div class="content" v-if="saleList.length>0">
                 <div v-for="item, index of saleList" :key="index" class="item-box" :class="index !== 0 && parseInt((index + 1) / 5) == parseFloat((index + 1) / 5)  ? '' : 'item-five'" @click="toDetails(item)">
-                    <img :src="item.imgurl" alt="">
+                    <img :src="item.imageurl" alt="">
                     <div class="max-rank">
                         <div class="max">{{item.edition}} #{{ item.tokenId }}</div>
                         <div class="rank">Rank: <span :class="item.rank === 'N' ? 'n' : item.rank === 'R' ? 'r' : item.rank === 'SR' ? 'sr' : item.rank === 'SSR' ? 'ssr' : ''">{{ item.rank }}</span></div>
@@ -76,8 +76,8 @@
         },
         methods: {
             async getInfos(){
-                let res = await this.$axios.get('/api/all/maskpolling')
-                let sellRes = await this.$axios.get('/api/getSellListing/0/0/0/0')
+                let res = await this.$axios.get('/api/getsellListing/showall/1/editon/0/rank/0/price/0/background/0')
+                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/editon/0/rank/0/price/0/background/0')
                 if(sellRes.status === 200){
                     this.sellList = sellRes.data
                 }
@@ -104,7 +104,7 @@
                 for (let item of res) {
                     // console.log(item)
                     if (item.status !== 'fulfilled') continue
-                    const tokenId = this.utils.toHex(item.value.tokenId)
+                    const tokenId = parseInt(item.value.tokenId)
                     myRes.push(tokenId)
                 }
                 if(myRes){
@@ -199,6 +199,7 @@
 
             },
             toDetails(item) {
+                debugger
                 this.$router.push({ path: '/saleDetail', query: { item:JSON.stringify(item) }})
             },
             handleSizeChange() {},

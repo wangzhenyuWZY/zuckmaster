@@ -5,7 +5,7 @@
             <div class="back" @click="back"> &lt;&lt; Back to Market</div>
             <div class="info">
                 <div class="img-box">
-                    <img :src="saleData.imgurl" alt="">
+                    <img :src="saleData.imageurl" alt="">
                 </div>
                 <div class="info-cont">
                     <div class="max-rank">
@@ -20,7 +20,7 @@
                         <div class="buy" v-show="!isMe" @click="buyNft">BUY</div>
                     </div>
                     <div class="price-desc">
-                        <div class="price">{{buyprice}} BNB <img src="../assets/myBox/b_an.png" alt=""></div>
+                        <div class="price">{{saleData.bnbPrice}} BNB <img src="../assets/myBox/b_an.png" alt=""></div>
                         <div class="desc">
                             Zuckerberg's MAX series will include Crazy MAX,Mad MAX ,King MAX  and Mars MAX.Their rank is N, R, SR and SSR . Each N, R, SR and SSR used to offset  single transaction tax and ZUCKSwap'fee dividend and also Get dividends from ZUCK Mammon.
                         </div>
@@ -149,7 +149,7 @@
                 for (let item of res) {
                     // console.log(item)
                     if (item.status !== 'fulfilled') continue
-                    const tokenId = this.utils.toHex(item.value.tokenId)
+                    const tokenId = parseInt(item.value.tokenId)
                     myRes.push(tokenId)
                 }
                 if(myRes){
@@ -160,15 +160,13 @@
                         this.isMe = true
                     }
                 }
-                let sellRes = await this.$axios.get('/api/getSellListing/0/0/0/0/0')
+                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/editon/0/rank/0/price/0/background/0/page/0')
                 if(sellRes.status === 200){
                     let thiscol = sellRes.data.filter((item)=>{
                         return item.tokenId == this.saleData.tokenId
                     })
                     if(thiscol.length>0){
                         this.isSell = true
-                        let buyprice = await this.$eth.c.zuckFactory.getListingNFTPrice(this.saleData.tokenId)
-                        this.buyprice = this.$eth.utils.formatEther(buyprice)
                     }
                 }
             },

@@ -4,15 +4,15 @@
             <div class="search-item">
                 <div class="type-box">
                     <div class="type-num">
-                        <div class="num">1,000</div>
+                        <div class="num">{{items}}</div>
                         <div>Items</div>
                     </div>
                     <div class="type-num">
-                        <div class="num">2,141</div>
+                        <div class="num">{{owners}}</div>
                         <div>Owners</div>
                     </div>
                     <div class="type-num">
-                        <div class="num">1.18 <img src="../assets/myBox/b_an.png" alt=""></div>
+                        <div class="num">{{floorPrice}} <img src="../assets/myBox/b_an.png" alt=""></div>
                         <div>Floor price</div>
                     </div>
                 </div>
@@ -25,15 +25,15 @@
             <div class="nav">
                 <div class="sales">Sales</div>
                 <div class="nav-box">
-                    <div :class="navFor === 1 ? 'left' : ''" @click="changeNav(1)">For Sale</div>
-                    <div :class="navFor === 2 ? 'right' : ''" @click="changeNav(2)">Show All</div>
+                    <div :class="isAll === 0 ? 'left' : ''" @click="changeNav(0)">For Sale</div>
+                    <div :class="isAll === 1 ? 'right' : ''" @click="changeNav(1)">Show All</div>
                 </div>
             </div>
             <div class="select-box">
                 <div class="filter"><img src="../assets/myBox/place_icon.png" alt=""> Filter</div>
                 <div class="select-input">
                     <div class="pt-re">
-                        <input v-model="priceVal" class="select" type="text" @click="openValue('priceShow')" @blur="">
+                        <input v-model="priceValShow" readonly class="select" type="text" @click="openValue('priceShow')" @blur="">
                         <div v-show="priceShow" class="list">
                             <ul ref="filter">
                                 <li v-for="(li, index) in priceList" :key="li" @click="changePrice(index)">{{ li }}</li>
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <div class="pt-re">
-                        <input v-model="editionVal" class="select" type="text" @click="openValue('editionShow')" @blur="">
+                        <input v-model="editionValShow" readonly class="select" type="text" @click="openValue('editionShow')" @blur="">
                         <div v-show="editionShow" class="list">
                             <ul ref="filter">
                                 <li v-for="(li, index) in editionList" ref="" :key="li" @click="changeEdite(index)">{{ li }}</li>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     <div class="pt-re">
-                        <input v-model="rankVal" class="select" type="text" @click="openValue('rankShow')" @blur="">
+                        <input v-model="rankValShow" readonly class="select" type="text" @click="openValue('rankShow')" @blur="">
                         <div v-show="rankShow" class="list">
                             <ul ref="filter">
                                 <li v-for="(li, index) in rankList" ref="" :key="li" @click="changeRank(index)">{{ li }}</li>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div class="pt-re">
-                        <input v-model="bgVal" class="select" type="text" @click="openValue('bgShow')" @blur="">
+                        <input v-model="bgValShow" readonly class="select" type="text" @click="openValue('bgShow')" @blur="">
                         <div v-show="bgShow" class="list">
                             <ul ref="filter">
                                 <li v-for="(li, index) in bgList" ref="" :key="li" @click="changebBg(index)">{{ li }}</li>
@@ -69,17 +69,18 @@
 
             <div class="content">
                 <div v-for="item, index of saleList" :key="index" class="item-box" :class="index !== 0 && parseInt((index + 1) / 5) == parseFloat((index + 1) / 5)  ? '' : 'item-five'" @click="toDetails(item)">
-                    <img src="../assets/myBox/box_img5.png" alt="">
+                    <img :src="item.imageurl" alt="">
                     <div class="max-rank">
-                        <div class="max">Crazy MAX #{{ item.max }}</div>
+                        <div class="max">{{item.edition}} #{{ item.tokenId }}</div>
                         <div class="rank">Rank: <span :class="item.rank === 'N' ? 'n' : item.rank === 'R' ? 'r' : item.rank === 'SR' ? 'sr' : item.rank === 'SSR' ? 'ssr' : ''">{{ item.rank }}</span></div>
                     </div>
-                    <div class="btn" v-show="item.isMe && !item.isSell">For sale</div>
-                    <div class="btn" v-show="item.isMe && item.isSell">Cancel Listing</div>
-                    <div class="btn" v-show="!item.isMe && item.isSell">BUY</div>
+                    <div class="btn" v-show="item.isMe && !item.isSell" @click="toSell(item)">For sale</div>
+                    <div class="btn" v-show="item.isMe && item.isSell" @click="cancelNft(item)">Cancel Listing</div>
+                    <div class="btn" v-show="!item.isMe && item.isSell" @click="buyNft(item)">BUY</div>
+                    <div class="btn" v-show="!item.isMe && !item.isSell">Not for sale</div>
                     <div class="price">
                         <span>Price</span>
-                        <span>{{ item.price }} <img class="" src="../assets/myBox/b_an.png" alt=""></span>
+                        <span>{{ item.bnbPrice }} <img class="" src="../assets/myBox/b_an.png" alt=""></span>
                     </div>
                     <div class="price">
                         <span>Last Price</span>
@@ -92,13 +93,14 @@
                     v-model="currentPage"
                     :page-size="10"
                     layout="prev, pager, next"
-                    :total="100"
+                    :total="pageTotal"
                     :pager-count="5"
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                 >
                 </el-pagination>
             </div>
+            <Pop :tokenId="saleData.id" v-if="showPop" @onClose='showPop = false' @sellSuc="sellSuc"/>
         <Footer />
     </div>
 </template>
@@ -111,27 +113,78 @@
         components: { Header, Footer },
         data() {
             return {
+                showPop:false,
                 navFor: 1,
                 priceShow: false,
                 editionShow: false,
                 rankShow: false,
                 bgShow: false,
-                priceVal: 'Price',
-                editionVal: 'Edition',
-                rankVal: 'Rank',
-                bgVal: 'Backgound',
+                priceVal: '0',
+                editionVal: '0',
+                rankVal: '0',
+                bgVal: '0',
+                priceValShow: 'Price',
+                editionValShow: 'Edition',
+                rankValShow: 'Rank',
+                bgValShow: 'Background',
 
-                priceList: [ 'Highest price', 'Lowest price' ],
-                editionList: [ 'Crazy MAX', 'Mad MAx', 'King MAX', 'Mars MAx' ],
-                rankList: [ 'N', 'R', 'SR', 'SSR' ],
-                bgList: [ 'Farm', 'Earth', 'Moon', 'Mar' ],
+                priceList: [ 'All','Highest price', 'Lowest price' ],
+                editionList: [ 'All','Crazy MAX', 'Mad MAx', 'King MAX', 'Mars MAx' ],
+                rankList: [ 'All','N', 'R', 'SR', 'SSR' ],
+                bgList: [ 'All','Farm', 'Earth', 'Moon', 'Mar' ],
 
                 saleList: [],
                 defaultAccount:null,
-                currentPage: 1
+                currentPage: 1,
+                pageTotal:1000,
+                isAll:1,
+                items:0,
+                owners:0,
+                floorPrice:0,
+                isSellList:[],
+                pagenum:0,
+                saleData:{}
             }
         },
         methods: {
+            toSell(item){
+                this.showPop = true
+                this.saleData = item
+            },
+            async sellSuc(){
+                this.showPop = false
+                await this.getSellList()
+                await this.getAllList()
+            },
+            async cancelNft(item){
+                let res = await this.$eth.c.zuckFactory.cancelListingNFT(item.tokenId)
+                await res.wait()
+                ElMessage({
+                    message: 'Success',
+                    type: 'success',
+                })
+                this.sellSuc()
+            },
+            async buyNft(item){
+                let price = new BigNumber(item.bnbPrice)
+                price = price.times(Math.pow(10,18))
+                price = price.plus(1)
+                let res = await this.$eth.c.zuckFactory.purchaseNFT(item.tokenId,{value:price.toFixed()})
+                await res.wait()
+                ElMessage({
+                    message: 'Success',
+                    type: 'success',
+                })
+                this.sellSuc()
+            },
+            async getInfos(){
+                let res = await this.$axios.get('/api/marketinformation')
+                if(res.status === 200){
+                    this.items = res.data.items
+                    this.owners = res.data.owners
+                    this.floorPrice = (res.data.floorPrice / Math.pow(10,18)).toFixed(2)
+                }
+            },
             async getMyIds(){
                 // 查询用户拥有的卡牌
                 this.myRes = []
@@ -151,35 +204,47 @@
                 for (let item of res) {
                     // console.log(item)
                     if (item.status !== 'fulfilled') continue
-                    const tokenId = this.utils.toHex(item.value.tokenId)
+                    const tokenId = parseInt(item.value.tokenId)
                     myRes.push(tokenId)
                 }
                 this.myRes = myRes
-                this.getSellList()
+                
+            },
+            checkMeAndSale(){
+                this.saleList.forEach((item) => {
+                    let thiscol = this.myRes.filter((ktem) => {
+                        return parseInt(ktem) == item.tokenId
+                    })
+                    if(thiscol.length>0){
+                        item.isMe = true
+                    }else{
+                        item.isMe = false
+                    }
+                    let hasSell = this.isSellList.filter((ktem) => {
+                        return parseInt(ktem.tokenId) == item.tokenId
+                    })
+                    if(hasSell.length>0){
+                        item.isSell = true
+                    }else{
+                        item.isSell = false
+                    }
+                    item.bnbPrice = (item.bnbPrice / Math.pow(10,18)).toFixed(2)
+                    item.lastPrice = (item.lastPrice / Math.pow(10,18)).toFixed(2)
+                })
             },
             async getAllList(){
                 this.saleList = []
-                let res = await this.$axios.get('/api/all/maskpolling')
+                let res = await this.$axios.get('/api/getsellListing/showall/'+this.isAll+'/editon/'+this.editionVal+'/rank/'+this.rankVal+'/price/'+this.priceVal+'/background/'+this.bgVal+'/page/'+this.pagenum)
                 if(res.status === 200){
                     this.saleList = res.data
+                    this.checkMeAndSale()
                 }
             },
             async getSellList(){
-                this.saleList = []
-                let sellRes = await this.$axios.get('/api/getSellListing/0/0/0/0/0')
+                this.isSellList = []
+                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/editon/'+this.editionVal+'/rank/'+this.rankVal+'/price/'+this.priceVal+'/background/'+this.bgVal+'/page/'+this.pagenum)
                 if(sellRes.status === 200){
-                    sellRes.data.forEach((item) => {
-                        let thiscol = this.myRes.filter((ktem) => {
-                            return parseInt(ktem) == item.tokenId
-                        })
-                        if(thiscol.length>0){
-                            item.isMe = true
-                        }else{
-                            item.isMe = false
-                        }
-                        item.isSell = true
-                        this.saleList.push(item)
-                    })
+                    this.isSellList = sellRes.data
                 }
             },
             // 获取本地指定文件夹所有图片
@@ -193,20 +258,62 @@
                 this[type] = true;
             },
             changePrice(index) {
-                this.priceVal = this.priceList[index]
+                if(index === 0){
+                    this.priceValShow = 'Price'
+                    this.priceVal = 0
+                }else if(index === 1){
+                    this.priceValShow = this.priceList[index]
+                    this.priceVal = 'u'
+                }else if(index === 2){
+                    this.priceValShow = this.priceList[index]
+                    this.priceVal = 'd'
+                }
                 this.priceShow = false
+                this.getAllList()
             },
             changeEdite(index) {
-                this.editionVal = this.editionList[index]
+                if(index === 0){
+                    this.editionVal = 0
+                }else if(index === 1){
+                    this.editionVal = 'Crazy'
+                }else if(index === 2){
+                    this.editionVal = 'Mad'
+                }else if(index === 3){
+                    this.editionVal = 'King'
+                }else if(index === 4){
+                    this.editionVal = 'Mars'
+                }
+                if(index === 0){
+                    this.editionValShow = 'Edition'
+                }else{
+                    this.editionValShow = this.editionList[index]
+                }
+                
                 this.editionShow = false
+                this.getAllList()
             },
             changeRank(index) {
-                this.rankVal = this.rankList[index]
+                if(index === 0){
+                    this.rankVal = 0
+                    this.rankValShow = 'Rank'
+                }else{
+                    this.rankVal = this.rankList[index]
+                    this.rankValShow = this.rankList[index]
+                }
                 this.rankShow = false
+                this.getAllList()
             },
             changebBg(index) {
-                this.bgVal = this.bgList[index]
+                if(index === 0){
+                    this.bgVal = 0
+                    this.bgValShow = 'Background'
+                }else{
+                    this.bgVal = this.bgList[index]
+                    this.bgValShow = this.bgList[index]
+                }
+                
                 this.bgShow = false
+                this.getAllList()
             },
             mouseDown(e) {
                 if (this.$refs.filter && e.target.contains(this.$refs.filter)) {
@@ -218,24 +325,28 @@
             },
     
             changeNav(nav) {
-                this.navFor = nav
-                if (nav === 1) {
-                    this.saleList = [ ]
-                } else {
-                    this.saleList = []
-                }
-
+                this.isAll = nav
+                this.getAllList()
             },
             toDetails(item) {
-                debugger
                 this.$router.push({ path: '/saleDetail', query: { item:JSON.stringify(item) }})
             },
-            handleSizeChange() {},
-            handleCurrentChange() {}
+            handleSizeChange(e) {
+                
+                
+            },
+            handleCurrentChange(e) {
+                this.currentPage = e
+                this.getAllList()
+            }
         },
         async created(){
+            this.getInfos()
             this.defaultAccount = await this.$eth.signer.getAddress()
-            this.getMyIds()
+            await this.getMyIds()
+            await this.getSellList()
+            await this.getAllList()
+            
         }
     }
 </script>
