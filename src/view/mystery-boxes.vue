@@ -23,7 +23,7 @@
                     <div class="max">CLAIM YOUR MAX</div>
                     <div class="mint">
                         Enter how many MAXs you would like to mint here
-                        <br>MAX minted: 0 / 1,000
+                        <br>MAX minted: {{mintNum}} / 1,000
                     </div>
                     <div class="price">
                         <div class="swiper-box-min">
@@ -37,18 +37,18 @@
                         </div>
                         <div class="desc">
                             <div>Price Per MAX</div>
-                            <div class="zuck">1 ZUCK Each</div>
+                            <div class="zuck">{{price}} ZUCK Each</div>
                         </div>
                     </div>
                     <div class="number">
                         <div @click="redumNum">-</div>
-                        <input v-model="number" type="text">
+                        <input v-model="number" placeholder="Please Enter 1-5" type="text">
                         <div @click="addNum">+</div>
                     </div>
                     <div class="total">
-                        <span>（1/Max）</span><span>Total:<span class="total-price">1 ZUCK</span></span>
+                        <span>（{{number?number:0}}/MAX）</span><span>Total:<span class="total-price">{{totalPrice}} ZUCK</span></span>
                     </div>
-                    <div class="mint-btn" @click="checkMint">Mint Now</div>
+                    <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve'}}</el-button>
                 </div>
             </div>
             <div class="min-icon-box">
@@ -188,12 +188,15 @@
         components: { Header, Footer },
         data() {
             return {
-                number: 1,
+                number: '',
                 navType: 1,
                 nftList:[],
                 defaultAccount:null,
                 isApproved:false,
-                isDoing:false
+                isDoing:false,
+                price:15000000,
+                totalPrice:0,
+                mintNum:0
             }
         },
         methods: {
@@ -204,10 +207,8 @@
                 if (parseInt(isApproved)) {
                     this.isApproved = true
                 }
-                let decimals = await this.$eth.c.zuckToken.decimals()
-                console.log('=============='+decimals)
-                let res = await this.$eth.provider.getTransaction('0xd73d034c172164a4883dad1234a27b80e1e968976423bee61187892a4d475325')
-                console.log(res)
+                let mints = await this.$eth.c.zuckFactory.getMintedTokenIds()
+                this.mintNum = mints.length
             },
             async checkMint(){
                 this.isDoing = true
@@ -240,13 +241,22 @@
                 }
             },
             redumNum(){
+                if(!this.number){
+                    this.number = 0
+                }
                 if(this.number>1){
                     this.number--
+                    this.totalPrice = this.number * this.price
+                    
                 }
             },
             addNum(){
+                if(!this.number){
+                    this.number = 0
+                }
                 if(this.number<5){
                     this.number++
+                    this.totalPrice = this.number * this.price
                 }
             },
             changeNav(nav) {
@@ -431,6 +441,9 @@
                         color: #FFFFFF;
                         text-align: center;
                         background: #000;
+                        &::-webkit-input-placeholder{
+                            font-size:30px;
+                        }
                     }
                 }
                 .total {
@@ -456,13 +469,14 @@
                     height: 60px;
                     background: #06FEFE;
                     font-size: 32px;
-                    line-height: 60px;
                     letter-spacing: 2px;
                     font-family: zcoolqingkehuangyouti-Regular, zcoolqingkehuangyouti;
                     font-weight: 400;
                     text-align: center;
                     cursor: pointer;
                     color: #000000;
+                    border:none;
+                    width:100%;
                 }  
             }
         }
@@ -769,6 +783,8 @@
                             line-height: 3rem;
                             letter-spacing: 2px;
                             font-size: 2rem;
+                            font-weight:bold;
+                            
                         }
                     }
                     .total {

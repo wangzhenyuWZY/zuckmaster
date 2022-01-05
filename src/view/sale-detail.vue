@@ -5,7 +5,7 @@
             <div class="back" @click="back"> &lt;&lt; Back to Market</div>
             <div class="info">
                 <div class="img-box">
-                    <img :src="saleData.imgurl" alt="">
+                    <img :src="saleData.imageurl" alt="">
                 </div>
                 <div class="info-cont">
                     <div class="max-rank">
@@ -13,14 +13,14 @@
                         <div class="rank">Rank：<span :class="saleData.rank === 'N' ? 'n' : saleData.rank === 'R' ? 'r' : saleData.rank === 'SR' ? 'sr' : saleData.rank === 'SSR' ? 'ssr' : ''">{{ saleData.rank }}</span></div>
                     </div>
                     <div class="btn-box" v-if="!isSell">
-                        <div v-show="isMe" @click="showPop = true">For sale</div>
+                        <el-button v-show="isMe" class="btn" @click="showPop = true">For sale</el-button>
                     </div>
                     <div class="btn-box" v-if="isSell">
-                        <div @click="cancelNft" v-show="isMe">Cancel Listing</div>
-                        <div class="buy" v-show="!isMe" @click="buyNft">BUY</div>
+                        <el-button class="btn" @click="cancelNft" v-show="isMe" :loading="isDoing" :disabled="isDoing">Cancel Listing</el-button>
+                        <el-button class="buy btn" v-show="!isMe" @click="buyNft" :loading="isDoing" :disabled="isDoing">BUY</el-button>
                     </div>
                     <div class="price-desc">
-                        <div class="price">{{buyprice}} BNB <img src="../assets/myBox/b_an.png" alt=""></div>
+                        <div class="price">{{saleData.bnbPriceVal}} BNB <img src="../assets/myBox/b_an.png" alt=""></div>
                         <div class="desc">
                             Zuckerberg's MAX series will include Crazy MAX,Mad MAX ,King MAX  and Mars MAX.Their rank is N, R, SR and SSR . Each N, R, SR and SSR used to offset  single transaction tax and ZUCKSwap'fee dividend and also Get dividends from ZUCK Mammon.
                         </div>
@@ -36,15 +36,15 @@
                         <div class="hiy-info">
                             <div>
                                 <span class="type">MintedBy</span>
-                                <span class="para">0X5968…00bFG</span>
+                                <span class="para">{{mintOwner}}</span>
                             </div>
                             <div>
                                 <span class="type">CurrentOwner</span>
-                                <span class="para">0X5968…00bFG</span>
+                                <span class="para">{{currentOwner}}</span>
                             </div>
                             <div>
                                 <span class="type">Last Price</span>
-                                <span class="last-price">1.5 BNB <img src="../assets/myBox/b_an.png" alt=""></span>
+                                <span class="last-price">{{lastPrice}} BNB <img src="../assets/myBox/b_an.png" alt=""></span>
                             </div>
                             <!-- <div>
                                 <span class="type">Transfers</span>
@@ -52,11 +52,11 @@
                             </div> -->
                             <div>
                                 <span class="type">Sale Status</span>
-                                <span class="sale-status">For sale</span>
+                                <span class="sale-status">{{isSell?'For sale':'Not for sale'}}</span>
                             </div>
                             <div>
                                 <span class="type">Listing Price</span>
-                                <span class="last-price">1.5 BNB</span>
+                                <span class="last-price">{{listingPrice}} BNB</span>
                             </div>
                         </div>
                     </div>
@@ -113,7 +113,13 @@
                 isSell:false,
                 contract:null,
                 showPop:false,
-                buyprice:0
+                buyprice:0,
+                currentOwner:'',
+                lastPrice:0,
+                listingPrice:0,
+                mintOwner:'',
+                isDoing:false,
+                bnbBalance:0
             }
         },
         methods: {
@@ -149,7 +155,7 @@
                 for (let item of res) {
                     // console.log(item)
                     if (item.status !== 'fulfilled') continue
-                    const tokenId = this.utils.toHex(item.value.tokenId)
+                    const tokenId = parseInt(item.value.tokenId)
                     myRes.push(tokenId)
                 }
                 if(myRes){
@@ -160,44 +166,70 @@
                         this.isMe = true
                     }
                 }
-                let sellRes = await this.$axios.get('/api/getSellListing/0/0/0/0/0')
+                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/editon/0/rank/0/price/0/background/0/page/0')
                 if(sellRes.status === 200){
                     let thiscol = sellRes.data.filter((item)=>{
                         return item.tokenId == this.saleData.tokenId
                     })
                     if(thiscol.length>0){
                         this.isSell = true
-                        let buyprice = await this.$eth.c.zuckFactory.getListingNFTPrice(this.saleData.tokenId)
-                        this.buyprice = this.$eth.utils.formatEther(buyprice)
                     }
                 }
             },
-            async cancelNft(){
-                let res = await this.$eth.c.zuckFactory.cancelListingNFT(this.saleData.tokenId)
-                await res.wait()
-                this.$emit('onClose')
-                ElMessage({
-                    message: 'Success',
-                    type: 'success',
-                })
-                this.getMyCol()
+            async getHistory(){
+                let res = await this.$axios.get('/api/history/'+this.saleData.tokenId)
+                if(res.status == 200){
+                    this.currentOwner = res.data.currentOwner
+                    this.lastPrice = (res.data.lastPrice / Math.pow(10,18)).toFixed(2)
+                    this.listingPrice = (res.data.listingPrice / Math.pow(10,18)).toFixed(2)
+                    this.mintOwner = res.data.mintOwner
+                }
             },
-            async buyNft(){
-                // if(this.isApproved){
-                    // let price = this.$eth.utils.parseEther(this.buyprice)
-                    // console.log(price)
-                    let price = new BigNumber(this.buyprice)
-                    price = price.times(Math.pow(10,18))
-                    price = price.plus(1)
-                    let res = await this.$eth.c.zuckFactory.purchaseNFT(this.saleData.tokenId,{value:price.toFixed()})
+            async cancelNft(){
+                this.isDoing = true
+                try{
+                    let res = await this.$eth.c.zuckFactory.cancelListingNFT(this.saleData.tokenId)
                     await res.wait()
+                    this.isDoing = false
                     this.$emit('onClose')
                     ElMessage({
                         message: 'Success',
                         type: 'success',
                     })
                     this.getMyCol()
-                    this.$router.push('/myCollection')
+                }catch{
+                    this.isDoing = false
+                }
+            },
+            async buyNft(){
+                // if(this.isApproved){
+                    // let price = this.$eth.utils.parseEther(this.buyprice)
+                    // console.log(price)
+                    if(this.bnbBalance<=item.bnbPrice){
+                        ElMessage({
+                            message: 'Insufficient balance',
+                            type: 'error',
+                        })
+                        return
+                    }
+                    this.isDoing = true
+                    try{
+                        let price = new BigNumber(this.saleData.bnbPrice)
+                        price = price.plus(1)
+                        let res = await this.$eth.c.zuckFactory.purchaseNFT(this.saleData.tokenId,{value:price.toFixed()})
+                        await res.wait()
+                        this.isDoing = false
+                        this.$emit('onClose')
+                        ElMessage({
+                            message: 'Success',
+                            type: 'success',
+                        })
+                        this.getMyCol()
+                        this.$router.push('/myCollection')
+                    }catch{
+                        this.isDoing = false
+                    }
+                    
                 // }else{
                 //     let res = await this.$eth.c.zuckToken.approve(this.$eth.c.zuckFactory.address, '100000000000000000000000000000000000000000000000')
                 //     await res.wait()
@@ -208,9 +240,11 @@
         async created () {
             this.defaultAccount = await this.$eth.signer.getAddress()
             this.saleData = JSON.parse(this.$route.query.item);
+            let bnbBalance = await this.$eth.provider.getBalance(this.defaultAccount)
+            this.bnbBalance = bnbBalance
             this.getMyCol()
             this.contract = this.$eth.c.zuckFactory.address
-            console.log(this.saleData.edition)
+            this.getHistory()
         },
     }
 </script>
@@ -298,7 +332,7 @@
                     font-weight: bold;
                     color: #000000;
                     line-height: 36px;
-                    div {
+                    .btn {
                         width: 211px;
                         height: 36px;
                         background: #06FEFE;
@@ -306,6 +340,8 @@
                         margin-right: 20px;
                         text-align: center;
                         cursor: pointer;
+                        border:none;
+                        font-weight:bold;
                     }
                     .buy {
                         background-color: #DCDCDC;
@@ -560,7 +596,7 @@
                         font-weight: bold;
                         color: #000000;
                         line-height: 2.09rem;
-                        div {
+                        .btn {
                             width: 8.8rem;
                             height: 2.09rem;
                             margin-right: 1rem;

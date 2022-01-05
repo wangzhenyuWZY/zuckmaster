@@ -9,9 +9,9 @@
       </div>
       <div class="willget">
         <span class="left">You Get</span>
-        <span class="right">1.5 BNB</span>
+        <span class="right">{{price}} BNB</span>
       </div>
-      <el-button class="btn" @click="sellNft">Post your Listing</el-button>
+      <el-button class="btn" @click="sellNft" :loading="isDoing" :disabled="isDoing">{{isApprovedForAll?'Post your Listing':'Approve'}}</el-button>
     </div>
   </div>
 </template>
@@ -22,32 +22,40 @@ export default {
   props: {
       tokenId: {
           type: String,
-          default: '',
-          isApproved:false,
-          isApprovedForAll:false
+          default: ''
       }
   },
   data() {
     return {
       defaultAccount:'',
-      price:''
+      price:'',
+      isDoing:false,
+      isApprovedForAll:false,
+      bnbBalance:0
     }
   },
   methods: {
     async getInfo(){
-      let addr = await this.$eth.c.zuckFactory.maxNFTAddr()
-      console.log(addr)
       this.isApprovedForAll = await this.$eth.c.zuckNft.isApprovedForAll(this.defaultAccount, this.$eth.c.zuckFactory.address)
-      let isApproved = await this.$eth.c.zuckToken.allowance(this.defaultAccount, this.$eth.c.zuckFactory.address)
-      if(parseInt(isApproved)){
-        this.isApproved = true
-      }
+      // let isApproved = await this.$eth.c.zuckToken.allowance(this.defaultAccount, this.$eth.c.zuckFactory.address)
+      // if(parseInt(isApproved)){
+      //   this.isApproved = true
+      // }
       let buyprice = await this.$eth.c.zuckFactory.getListingNFTPrice(this.tokenId)
       this.buyprice = this.$eth.utils.formatEther(buyprice)
       console.log(this.buyprice)
     },
     async sellNft(){
+      if(!this.price){
+        ElMessage({
+            message: 'Please enter the price',
+            type: 'error',
+        })
+        return
+      }
+      this.isDoing = true
       if(this.isApprovedForAll){
+        try{
           let res = await this.$eth.c.zuckFactory.addListingNFT(this.tokenId,this.$eth.utils.parseEther(String(this.price)))
           await res.wait()
           this.$emit('onClose')
@@ -55,40 +63,24 @@ export default {
               message: 'Success',
               type: 'success',
           })
+          this.isDoing = false
           this.$emit('sellSuc')
+        }catch{
+          this.isDoing = false
+        }
       }else{
+        try{
           let res = await this.$eth.c.zuckNft.setApprovalForAll(this.$eth.c.zuckFactory.address, true)
           await res.wait()
           this.isApprovedForAll = true
+          this.isDoing = false
+        }catch{
+          this.isDoing = false
+        }
       }
     },
     closePop(){
       this.$emit('onClose')
-    },
-    async cancelNft(){
-      let res = await this.$eth.c.zuckFactory.cancelListingNFT(this.tokenId)
-      await res.wait()
-      this.$emit('onClose')
-      ElMessage({
-          message: 'Success',
-          type: 'success',
-      })
-    },
-    async buyNft(){
-      // if(this.isApproved){
-        let res = await this.$eth.c.zuckFactory.purchaseNFT(this.tokenId,{value:this.$eth.utils.parseEther(String(this.buyprice))})
-        await res.wait()
-        this.$emit('onClose')
-        ElMessage({
-            message: 'Success',
-            type: 'success',
-        })
-      // }
-      // else{
-      //   let res = await this.$eth.c.zuckToken.approve(this.$eth.c.zuckFactory.address, '100000000000000000000000000000000000000000000000')
-      //   await res.wait()
-      //   this.isApproved = true
-      // }
     }
   },
   async created(){
@@ -152,7 +144,7 @@ export default {
       }
     }
     .willget{
-      margin:30px 0 90px;
+      margin:30px 0 50px;
       padding:6px 0;
       border-top:1px solid #353535;
       border-bottom:1px solid #353535;
@@ -179,6 +171,9 @@ export default {
       display: block;
       border:none;
       outline: none;
+      padding:0;
+      min-height:0;
+      font-weight: bold;
     }
   }
 }

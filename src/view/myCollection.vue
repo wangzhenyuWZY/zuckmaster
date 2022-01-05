@@ -3,21 +3,21 @@
         <Header />
         <div class="colPanel">
             <div class="content" v-if="saleList.length>0">
-                <div v-for="item, index of saleList" :key="index" class="item-box" :class="index !== 0 && parseInt((index + 1) / 5) == parseFloat((index + 1) / 5)  ? '' : 'item-five'" @click="toDetails(item)">
-                    <img :src="item.imgurl" alt="">
+                <div v-for="item, index of saleList" :key="index" class="item-box" :class="index !== 0 && parseInt((index + 1) / 5) == parseFloat((index + 1) / 5)  ? '' : 'item-five'">
+                    <img :src="item.imageurl" alt="" @click="toDetails(item)">
                     <div class="max-rank">
                         <div class="max">{{item.edition}} #{{ item.tokenId }}</div>
                         <div class="rank">Rank: <span :class="item.rank === 'N' ? 'n' : item.rank === 'R' ? 'r' : item.rank === 'SR' ? 'sr' : item.rank === 'SSR' ? 'ssr' : ''">{{ item.rank }}</span></div>
                     </div>
-                    <div class="btn" @click.stop="toSell(item.tokenId)" v-show="!item.isSell">For sale</div>
-                    <div class="btn" @click.stop="cancelNft(item.tokenId)" v-show="item.isSell">Cancel Listing</div>
-                    <div class="price" v-show="false">
+                    <el-button class="btn" @click.stop="toSell(item.tokenId)" v-show="!item.isSell">For sale</el-button>
+                    <el-button class="btn" :loading="isDoing && item.tokenId===doingId" :disabled="isDoing && item.tokenId===doingId" @click.stop="cancelNft(item.tokenId)" v-show="item.isSell">Cancel Listing</el-button>
+                    <div class="price">
                         <span>Price</span>
-                        <span>{{ item.price }} <img class="" src="../assets/myBox/b_an.png" alt=""></span>
+                        <span>{{ item.bnbPriceVal }} <img class="" src="../assets/myBox/b_an.png" alt=""></span>
                     </div>
-                    <div class="price" v-show="false">
+                    <div class="price">
                         <span>Last Price</span>
-                        <span>{{ item.lastPrice }} <img src="../assets/myBox/b_an.png" alt=""></span>
+                        <span>{{ item.lastPriceVal }} <img src="../assets/myBox/b_an.png" alt=""></span>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
             </div>
         </div>    
         <Footer />
-        <Pop :tokenId="curTokenId" v-if="showPop" @onClose='showPop = false'/>
+        <Pop :tokenId="curTokenId" v-if="showPop" @sellSuc="sellSuc" @onClose='showPop = false'/>
     </div>
 </template>
 
@@ -71,13 +71,17 @@
 
                 currentPage: 1,
                 defaultAccount:'',
-                sellList:[]
+                sellList:[],
+                isDoing:false,
+                doingId:0
             }
         },
         methods: {
             async getInfos(){
-                let res = await this.$axios.get('/api/all/maskpolling')
-                let sellRes = await this.$axios.get('/api/getSellListing/0/0/0/0')
+                this.sellList = []
+                this.nftList = []
+                let res = await this.$axios.get('/api/getsellListing/showall/1/editon/0/rank/0/price/0/background/0/page/0')
+                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/editon/0/rank/0/price/0/background/0/page/0')
                 if(sellRes.status === 200){
                     this.sellList = sellRes.data
                 }
@@ -104,10 +108,11 @@
                 for (let item of res) {
                     // console.log(item)
                     if (item.status !== 'fulfilled') continue
-                    const tokenId = this.utils.toHex(item.value.tokenId)
+                    const tokenId = parseInt(item.value.tokenId)
                     myRes.push(tokenId)
                 }
                 if(myRes){
+                    this.saleList = []
                     myRes.forEach((item,index) => {
                         let cur = this.nftList[parseInt(item) - 1]
                         let selldata = this.sellList.filter((ktem)=>{
@@ -118,23 +123,41 @@
                         }else{
                             cur.isSell = false
                         }
+                        cur.bnbPriceVal = (cur.bnbPrice / Math.pow(10,18)).toFixed(2)
+                        cur.lastPriceVal = (cur.lastPrice / Math.pow(10,18)).toFixed(2)
                         this.saleList.push(cur)
                         console.log(this.saleList)
                     })
                 }
             },
             async cancelNft(id){
-                let res = await this.$eth.c.zuckFactory.cancelListingNFT(id)
-                await res.wait()
-                ElMessage({
-                    message: 'Success',
-                    type: 'success',
-                })
-                this.getInfos()
+                this.doingId = id
+                this.isDoing = true
+                try{
+                    let res = await this.$eth.c.zuckFactory.cancelListingNFT(id)
+                    await res.wait()
+                    ElMessage({
+                        message: 'Success',
+                        type: 'success',
+                    })
+                    this.getInfos()
+                    this.isDoing = false
+                }catch{
+                    this.isDoing = false
+                }
+                
             },
             toSell(id){
                 this.showPop = true
                 this.curTokenId = id
+            },
+            sellSuc(){
+                this.getInfos()
+                ElMessage({
+                    message: 'Success',
+                    type: 'success',
+                })
+                this.showPop =false
             },
             // 获取本地指定文件夹所有图片
             src (name) {
@@ -170,35 +193,8 @@
                     this.bgShow = false
                 }
             },
-    
-            changeNav(nav) {
-                this.navFor = nav
-                if (nav === 1) {
-                    this.saleList = [
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'N', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'SR', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'SSR', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 }
-                    ]
-                } else {
-                    this.saleList = [
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'N', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'SR', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'SSR', price: 2.18, lastPrice: 2.18 },
-                        { max: '23', rank: 'R', price: 2.18, lastPrice: 2.18 }
-                    ]
-                }
-
-            },
             toDetails(item) {
+                debugger
                 this.$router.push({ path: '/saleDetail', query: { item:JSON.stringify(item) }})
             },
             handleSizeChange() {},
@@ -441,10 +437,13 @@
                 box-shadow: 0px 2px 0px 0px rgba(43, 168, 25, 0.21);
                 border-radius: 16px;
                 font-size: 14px;
-                line-height: 28px;
                 color: #000000;
                 cursor: pointer;
                 text-align: center;
+                border:none;
+                padding: 0;
+                min-height: 0;
+                font-weight: bold;
             }
             .price {
                 width: 100%;
