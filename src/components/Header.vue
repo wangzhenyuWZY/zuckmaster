@@ -245,6 +245,7 @@ export default {
 }
 @media screen and (max-width:900px) {
   .mobHeader{
+    top: 0;
     height:60px;
     background-size:100% 100%;
     position: fixed;

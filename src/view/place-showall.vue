@@ -804,7 +804,7 @@
 
         .content {
             width: 94%;
-            min-height: 61rem;
+            min-height: 0;
             margin: 1rem auto 0;
             display: flex;
             flex-flow: wrap;
