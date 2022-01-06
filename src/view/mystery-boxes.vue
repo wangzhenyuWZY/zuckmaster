@@ -128,13 +128,13 @@
                             <td>King MAX</td>
                             <td class="rank-row3">SR</td>
                             <td>90</td>
-                            <td>0.9%</td>
+                            <td>9%</td>
                         </tr>
                         <tr class="tab-row">
                             <td>Mars MAX</td>
                             <td class="rank-row4">SSR</td>
                             <td>10</td>
-                            <td>0.1%</td>
+                            <td>1%</td>
                         </tr>
                     </table>
                 </div>
