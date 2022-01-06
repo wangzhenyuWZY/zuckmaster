@@ -1,7 +1,9 @@
 <template>
   <div class="headerContainer">
     <div class="header">
-        <img src="../assets/logo.png" class="logo">
+        <div class="logobox">
+          <img src="../assets/logo.png" class="logo">
+        </div>
         <div class="menus">
             <a class="menu" @click="toLink(0)">Home</a>
             <a class="menu" @click="toLink(1)">Tokenomics</a>
@@ -181,9 +183,8 @@ export default {
       display:none;
     }
     .logo{
-        width:180px;
-        height:48px;
-        margin-top:12px;
+        width:230px;
+        margin-top:18px;
     }
     .wallet{
       font-size:12px;
@@ -244,6 +245,7 @@ export default {
 }
 @media screen and (max-width:900px) {
   .mobHeader{
+    top: 0;
     height:60px;
     background-size:100% 100%;
     position: fixed;

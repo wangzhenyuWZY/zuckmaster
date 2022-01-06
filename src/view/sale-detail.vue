@@ -17,7 +17,7 @@
                     </div>
                     <div class="btn-box" v-if="isSell">
                         <el-button class="btn" @click="cancelNft" v-show="isMe" :loading="isDoing" :disabled="isDoing">Cancel Listing</el-button>
-                        <el-button class="buy btn" v-show="!isMe" @click="buyNft" :loading="isDoing" :disabled="isDoing">BUY</el-button>
+                        <el-button class="btn" v-show="!isMe" @click="buyNft" :loading="isDoing" :disabled="isDoing">BUY</el-button>
                     </div>
                     <div class="price-desc">
                         <div class="price">{{saleData.bnbPriceVal}} BNB <img src="../assets/myBox/b_an.png" alt=""></div>
@@ -138,6 +138,15 @@
                 this.getMyCol()
             },
             async getMyCol(){
+                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/editon/0/rank/0/price/0/background/0/page/0')
+                if(sellRes.status === 200){
+                    let thiscol = sellRes.data.filter((item)=>{
+                        return item.tokenId == this.saleData.tokenId
+                    })
+                    if(thiscol.length>0){
+                        this.isSell = true
+                    }
+                }
                 this.myRes = []
                 let balance = await this.$eth.c.zuckNft.balanceOf(this.defaultAccount)
                 balance = parseInt(balance)
@@ -166,15 +175,7 @@
                         this.isMe = true
                     }
                 }
-                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/editon/0/rank/0/price/0/background/0/page/0')
-                if(sellRes.status === 200){
-                    let thiscol = sellRes.data.filter((item)=>{
-                        return item.tokenId == this.saleData.tokenId
-                    })
-                    if(thiscol.length>0){
-                        this.isSell = true
-                    }
-                }
+                
             },
             async getHistory(){
                 let res = await this.$axios.get('/api/history/'+this.saleData.tokenId)
@@ -205,7 +206,7 @@
                 // if(this.isApproved){
                     // let price = this.$eth.utils.parseEther(this.buyprice)
                     // console.log(price)
-                    if(this.bnbBalance<=item.bnbPrice){
+                    if(this.bnbBalance<=this.saleData.bnbPrice){
                         ElMessage({
                             message: 'Insufficient balance',
                             type: 'error',
@@ -219,11 +220,11 @@
                         let res = await this.$eth.c.zuckFactory.purchaseNFT(this.saleData.tokenId,{value:price.toFixed()})
                         await res.wait()
                         this.isDoing = false
-                        this.$emit('onClose')
                         ElMessage({
                             message: 'Success',
                             type: 'success',
                         })
+                        this.getHistory()
                         this.getMyCol()
                         this.$router.push('/myCollection')
                     }catch{
