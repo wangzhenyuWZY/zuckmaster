@@ -17,8 +17,8 @@
                     </div>
                 </div>
                 <div class="input-box">
-                    <input class="search-input" placeholder="Search" v-model="editionVal" type="text">
-                    <img class="icon" src="../assets/myBox/search_icon.png" alt="">
+                    <input class="search-input" placeholder="Search" v-model="editionPutVal" type="text">
+                    <img class="icon" src="../assets/myBox/search_icon.png" alt="" @click="checkList">
                 </div>
             </div>
             
@@ -147,10 +147,21 @@
                 saleData:{},
                 bnbBalance:0,
                 isDoing:false,
-                doingId:0
+                doingId:0,
+                editionPutVal:''
             }
         },
         methods: {
+            checkList(){
+                if(this.editionPutVal){
+                    
+                }else{
+                    ElMessage({
+                        message: 'Please enter Tokenid',
+                        type: 'error',
+                    })
+                }
+            },
             toSell(item){
                 this.showPop = true
                 this.saleData = item

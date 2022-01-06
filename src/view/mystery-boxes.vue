@@ -199,6 +199,17 @@
                 mintNum:0
             }
         },
+        watch:{
+            number (v) {
+                if (parseInt(v)>5) {
+                    this.number = 5
+                }else if(parseInt(v)<1){
+                    this.number = 1
+                }else{
+                    this.totalPrice = v * this.price
+                }
+            }
+        },
         methods: {
             async getInfos(){
                 let balance = await this.$eth.c.zuckToken.balanceOf(this.defaultAccount)
