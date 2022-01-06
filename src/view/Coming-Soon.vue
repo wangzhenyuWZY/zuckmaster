@@ -24,7 +24,7 @@
     width: 100%;
     height: 100%;
     padding-top: 88px;
-    background: url('../assets/myBox/place_bg1.png') no-repeat center/100% 100%;
+    background: url('../assets/myBox/place_bg1.jpg') no-repeat center/100% 100%;
     .text {
         width: max-content;
         height: 90%;

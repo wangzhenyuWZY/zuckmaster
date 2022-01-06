@@ -394,7 +394,7 @@
 .place {
     width: 100%;
     padding-top: 140px;
-    background: url('../assets/myBox/place_bg1.png') no-repeat center/100% 100%;
+    background: url('../assets/myBox/place_bg1.jpg') no-repeat center/100% 100%;
     .search-item {
         width: 668px;
         height: 58px;
