@@ -24,11 +24,11 @@
           <img src="../assets/btn4.png" class="btn4 linkbtn4">
           <img src="../assets/btn5.png" class="btn5">
           <div class="baifenbi">
-            <p><span>3.0%</span> Redistribution     </p>
-            <p><span>2.0%</span>  Marketingand Brand     </p>
+            <p><span>2.0%</span> Redistribution     </p>
+            <p><span>3.0%</span>  Marketingand Brand     </p>
             <p><span>3.0%</span> Auto liquidity Pool </p>
           </div>
-          <p class="simply">Simply earn ZUCK tokens by holding! 3.0% Holder Rewards are dispersed to all token holders relative to their holding percentages. Also 2.0% Marketing and Brand  keeps our token extremely fomo and healthy for many years to come. And 3.0% Auto liquidity pool can push the price slowly! Be a HODL's with us and earn more tokens on auto-pilot!</p>
+          <p class="simply">Simply earn ZUCK tokens by holding! 2.0% Holder Rewards are dispersed to all token holders relative to their holding percentages. Also 3.0% Marketing and Brand  keeps our token extremely fomo and healthy for many years to come. And 3.0% Auto liquidity pool can push the price slowly! Be a HODL's with us and earn more tokens on auto-pilot!</p>
           <img src="../assets/btn6.png" class="btn6">
           <img src="../assets/btn7.png" class="btn7">
           <div class="swap">
@@ -84,12 +84,12 @@
         <img src="../assets/btn4.png" class="btn4 linkbtn4">
         <img src="../assets/btn5.png" class="btn5">
         <div class="baifenbi">
-          <p><span>3.0%</span> Redistribution     </p>
-          <p><span>2.0%</span>  Marketingand Brand     </p>
+          <p><span>2.0%</span> Redistribution     </p>
+          <p><span>3.0%</span>  Marketingand Brand     </p>
           <p><span>3.0%</span> Auto liquidity Pool </p>
         </div>
         <p class="simplytext">
-          Simply earn ZUCK tokens by holding! 3.0% Holder Rewards are dispersed to all token holders relative to their holding percentages. Also 2.0% Marketing and Brand  keeps our token extremely fomo and healthy for many years to come. And 3.0% Auto liquidity pool can push the price slowly! Be a HODL's with us and earn more tokens on auto-pilot!
+          Simply earn ZUCK tokens by holding! 3.0% Holder Rewards are dispersed to all token holders relative to their holding percentages. Also 3.0% Marketing and Brand  keeps our token extremely fomo and healthy for many years to come. And 3.0% Auto liquidity pool can push the price slowly! Be a HODL's with us and earn more tokens on auto-pilot!
         </p>
         <div class="morebtm"><img src="../assets/morebtm.png"></div>
         <img src="../assets/btn6.png" class="btn6">

@@ -48,7 +48,8 @@
                     <div class="total">
                         <span>（{{number?number:0}}/MAX）</span><span>Total:<span class="total-price">{{totalPrice}} ZUCK</span></span>
                     </div>
-                    <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve'}}</el-button>
+                    <!-- <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve'}}</el-button> -->
+                    <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">Mint Now</el-button>
                 </div>
             </div>
             <div class="min-icon-box">
@@ -68,7 +69,8 @@
                         <img src="../assets/myBox/box_img18.png" alt="">
                     </div>
                     <div class="value">
-                        Collection Value
+                        There will be 10,000 NFTs for sale here, sold in 10 rounds, and all of ZUCKs in each round will be destroyed in batches.<br>
+                        NFTs MAX Collection Value
                         <br>1. Reduce ZUCK single transaction tax slippage
                         <br>2. Obtain ZUCKSWAP's fee dividend privilege
                         <br>3. Obtain the governance privileges of ZUCKDAO
@@ -77,12 +79,12 @@
                 </div>
                 <div v-if="navType === 2" class="details">
                     <div class="">
-                        1、There will be <span class="on-text">1000</span> Mystery Boxes on sale,Every user can only buy a maximum of 5 boxes.
-                        <br>2、Zuckerberg's MAX series will include Crazy MAX,Mad MAX ,King MAX and Mars MAX.Their rank is N, R, SR and SSR . Each N, R, SR and SSR used to offset single transaction tax and ZUCKSwap'fee dividend and also Get dividends from ZUCK Mammon.
+                        1、There will be <span class="on-text">1000</span> Mystery Boxes on sale at each round,Every user can only buy a maximum of 5 boxes.
+                        <br>2、Zuckerberg's MAX series will include Crazy MAX,Mad MAX ,King MAX  and Mars MAX.Their rank is N, R, SR and SSR . Each N, R, SR and SSR used to offset  single transaction tax and ZUCKSwap'fee dividend and also Get dividends from ZUCK DAO and Mammon.
                     </div>
                     <div>
                         <div>
-                            3、NFT Privilege：
+                            3、NFTs Privilege
                         </div>
                         <div>
                             <span class="on-text">Crazy MAX :</span>
@@ -90,15 +92,15 @@
                         </div>
                         <div>
                             <span class="on-text">Mad MAX :</span>
-                            Rank R, 200 NFTs, Each R can be used to offset 3% single transaction tax and ZUCKSwap'fee dividend
+                            Rank R, 200 NFTs, Each R can be used  to offset 3% single transaction tax and ZUCKSwap'fee dividend
                         </div>
                         <div>
                             <span class="on-text">King MAX :</span>
-                            Rank SR, 90 NFTs, Each SR can be used to offset 5% single transaction tax and ZUCKSwap'fee dividend and also get dividends from ZUCK Mammon
+                            Rank SR, 90 NFTs, Each SR can be used  to offset 5% single transaction tax and ZUCKSwap'fee dividend and also get dividends from ZUCK DAO
                         </div>
                         <div>
                             <span class="on-text">Mars MAX :</span>
-                            Rank SSR, 10 NFTs, Each SR can be used to offset 8% single transaction tax and ZUCKSwap'fee dividend and also get dividends from ZUCK Mammon and also obtain the governance privileges of ZUCKDAO
+                            Rank SSR,  10 NFTs, Each SR can be used  to offset 8% single transaction tax and ZUCKSwap'fee dividend and also get dividends from ZUCK DAO and Mammon
                         </div>
                     </div>
                 </div>
@@ -211,6 +213,11 @@
                 this.mintNum = mints.length
             },
             async checkMint(){
+                ElMessage({
+                    message: 'Coming Soon',
+                    type: 'success',
+                })
+                return
                 this.isDoing = true
                 if(this.isApproved){
                     this.doMint()

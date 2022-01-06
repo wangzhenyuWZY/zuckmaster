@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="right">
-                <img src="../assets/foot1.png">
+                <img src="../assets/logo1.png">
             </div>
         </div>
         <p class="copy">© Copyright 2021 ZUCKMETA </p>
@@ -87,6 +87,11 @@ export default {
                        text-align:center;
                    }
                }
+           }
+       }
+       .right{
+           img{
+               width:200px;
            }
        }
    }
