@@ -89,7 +89,7 @@
           <p><span>3.0%</span> Auto liquidity Pool </p>
         </div>
         <p class="simplytext">
-          Simply earn ZUCK tokens by holding! 3.0% Holder Rewards are dispersed to all token holders relative to their holding percentages. Also 3.0% Marketing and Brand  keeps our token extremely fomo and healthy for many years to come. And 3.0% Auto liquidity pool can push the price slowly! Be a HODL's with us and earn more tokens on auto-pilot!
+          Simply earn ZUCK tokens by holding! 2.0% Holder Rewards are dispersed to all token holders relative to their holding percentages. Also 3.0% Marketing and Brand  keeps our token extremely fomo and healthy for many years to come. And 3.0% Auto liquidity pool can push the price slowly! Be a HODL's with us and earn more tokens on auto-pilot!
         </p>
         <div class="morebtm"><img src="../assets/morebtm.png"></div>
         <img src="../assets/btn6.png" class="btn6">
@@ -481,7 +481,10 @@ export default {
         }
         .baifenbi{
           padding-top:16px;
-          text-align:center;
+          width: 250px;
+          margin: 0 auto;
+          text-align: left;
+          padding-left: 46px;
           p{
             font-size:15px;
             color:#fff;

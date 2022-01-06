@@ -291,8 +291,7 @@ export default {
           height:33px;
         }
         .logo{
-            width:119px;
-            height:33px;
+            width:200px;
             margin-top:6px;
         }
         .menus{
