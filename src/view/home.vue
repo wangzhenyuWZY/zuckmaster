@@ -465,7 +465,6 @@ export default {
           line-height:30px;
           text-align:left;
           padding-bottom:100px;
-          word-break: break-all;
         }
       }
       .mobPanel3{
@@ -503,7 +502,6 @@ export default {
           color:#fff;
           line-height:34px;
           text-align:left;
-          word-break: break-all;
         }
         .btn6{
           width:295px;
@@ -537,7 +535,6 @@ export default {
           line-height:36px;
           text-align:left;
           padding:0 50px 80px;
-          word-break: break-all;
         }
         .btn11{
           width:236px;
@@ -581,7 +578,6 @@ export default {
           text-align:left;
           padding-bottom:20px;
           padding:0 10px;
-          word-break: break-all;
         }
         .partner{
           display:flex;

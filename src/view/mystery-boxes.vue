@@ -876,7 +876,6 @@
                     font-size: 1rem;
                     line-height: 2rem;
                     text-align: justify;
-                    word-break: break-all;
                 }
                 .series {
                     width: 100%;
