@@ -2,6 +2,9 @@
     <div class="place" @mousedown="mouseDown">
         <Header />
         <div class="colPanel">
+            <div class="withdrawbtn">
+                <el-button class="btn" :loading="withdrawing" :disabled="withdrawing" @click="withdrawBnb">Withdraw</el-button>
+            </div>
             <div class="content" v-if="saleList.length>0">
                 <div v-for="item, index of saleList" :key="index" class="item-box" :class="index !== 0 && parseInt((index + 1) / 5) == parseFloat((index + 1) / 5)  ? '' : 'item-five'">
                     <img :src="item.imageurl" alt="" @click="toDetails(item)">
@@ -73,15 +76,17 @@
                 defaultAccount:'',
                 sellList:[],
                 isDoing:false,
-                doingId:0
+                doingId:0,
+                mySaleNftList:[],
+                withdrawing:false
             }
         },
         methods: {
             async getInfos(){
                 this.sellList = []
                 this.nftList = []
-                let res = await this.$axios.get('/api/getsellListing/showall/1/editon/0/rank/0/price/0/background/0/page/0')
-                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/editon/0/rank/0/price/0/background/0/page/0')
+                let res = await this.$axios.get('/api/getsellListing/showall/1/tokenid/0/editon/0/rank/0/price/0/background/0/page/0')
+                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/tokenid/0/editon/0/rank/0/price/0/background/0/page/0')
                 if(sellRes.status === 200){
                     this.sellList = sellRes.data
                 }
@@ -90,11 +95,39 @@
                     this.getMyCol()
                 }
             },
+            async withdrawBnb(){
+                this.withdrawing = true
+                // let bnbbalance = await this.$eth.c.zuckFactory.userPurseNFT(this.defaultAccount)
+                // if(parseInt(bnbbalance) == 0){
+                //     ElMessage({
+                //         message: 'You do not have bnb left',
+                //         type: 'error',
+                //     })
+                //     this.withdrawing = false
+                //     return
+                // }
+                try{
+                    let res = await this.$eth.c.zuckFactory.withDrawListingBNB()
+                    await res.wait()
+                    ElMessage({
+                        message: 'Success',
+                        type: 'success',
+                    })
+                    this.withdrawing = false
+                }catch{
+                    ElMessage({
+                        message: 'You do not have bnb left',
+                        type: 'error',
+                    })
+                    this.withdrawing = false
+                }
+                
+            },
             async getMyCol(){
                 // 查询用户拥有的卡牌
                 let balance = await this.$eth.c.zuckNft.balanceOf(this.defaultAccount)
                 balance = parseInt(balance)
-                if (!balance) return
+                if (!balance && this.mySaleNftList.length == 0) return
                 const promises = []
                 for (let i = 0; i < balance; i++) {
                     const p = async () => {
@@ -111,6 +144,10 @@
                     const tokenId = parseInt(item.value.tokenId)
                     myRes.push(tokenId)
                 }
+                this.mySaleNftList.forEach((item)=>{
+                    if(parseInt(item) == 0) return
+                    myRes.push(parseInt(item))
+                })
                 if(myRes){
                     this.saleList = []
                     myRes.forEach((item,index) => {
@@ -194,7 +231,6 @@
                 }
             },
             toDetails(item) {
-                debugger
                 this.$router.push({ path: '/saleDetail', query: { item:JSON.stringify(item) }})
             },
             handleSizeChange() {},
@@ -202,6 +238,7 @@
         },
         async created(){
             this.defaultAccount = await this.$eth.signer.getAddress()
+            this.mySaleNftList = await this.$eth.c.zuckFactory.getUserListingNFT(this.defaultAccount)
             this.getInfos()
         }
     }
@@ -214,6 +251,16 @@
     background: url('../assets/myBox/place_bg1.jpg') no-repeat center/100% 100%;
     .colPanel{
         min-height:60vh;
+    }
+    .withdrawbtn{
+        width:1200px;
+        margin:0 auto;
+        text-align:right;
+        .btn{
+            background:#06FEFE;
+            color:#000000;
+            border:none;
+        }
     }
     .search-item {
         width: 668px;
@@ -498,6 +545,11 @@
     .place {
         padding-top: 4rem;
         background: url('../assets/myBox/place_bg1_min.png') no-repeat center/100% 100%;
+        .withdrawbtn{
+            width:auto;
+            padding:0 15px;
+
+        }
         .search-item {
             width: 17.63rem;
             height: auto;

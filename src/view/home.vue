@@ -502,7 +502,6 @@ export default {
           color:#fff;
           line-height:34px;
           text-align:left;
-          word-break: break-all;
         }
         .btn6{
           width:295px;
@@ -513,6 +512,7 @@ export default {
           padding-top:36px;
           img{
             margin-left:-40px;
+            width:100%;
           }
         }
       }
@@ -587,7 +587,7 @@ export default {
             margin:16px 2px;
           }
           img{
-            width:100px;
+            width:97px;
           }
         }
       }

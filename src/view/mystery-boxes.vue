@@ -224,11 +224,11 @@
                 this.mintNum = mints.length
             },
             async checkMint(){
-                ElMessage({
-                    message: 'Coming Soon',
-                    type: 'success',
-                })
-                return
+                // ElMessage({
+                //     message: 'Coming Soon',
+                //     type: 'success',
+                // })
+                // return
                 this.isDoing = true
                 if(this.isApproved){
                     this.doMint()
@@ -798,11 +798,14 @@
                         }
                         input {
                             width: 14.56rem;
-                            line-height: 3rem;
+                            line-height: 2rem;
                             letter-spacing: 2px;
                             font-size: 2rem;
                             font-weight:bold;
-                            
+                            &::-webkit-input-placeholder{
+                                font-size:1rem;
+                                line-height:2rem;
+                            }
                         }
                     }
                     .total {
@@ -818,7 +821,6 @@
                     .mint-btn {
                         height: 3.75rem;
                         font-size: 1.63rem;
-                        line-height: 3.75rem;
                     }  
                 }
             }
@@ -946,7 +948,7 @@
                     justify-content: start;
                     flex-flow: wrap;
                     img {
-                        width: 6.88rem;
+                        width: 6.7rem;
                         height: 3.06rem;
                         margin-right: .4rem;
                         margin-bottom: 1rem;
