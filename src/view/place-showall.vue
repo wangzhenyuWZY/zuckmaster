@@ -215,7 +215,6 @@
             async getInfos(){
                 let res = await this.$axios.get('/api/marketinformation')
                 if(res.status === 200){
-                    this.items = res.data.items
                     this.owners = res.data.owners
                     this.floorPrice = (res.data.floorPrice / Math.pow(10,18)).toFixed(2)
                 }
@@ -395,6 +394,8 @@
             let bnbBalance = await this.$eth.provider.getBalance(this.defaultAccount)
             this.bnbBalance = parseInt(bnbBalance)
             this.mySaleNftList = await this.$eth.c.zuckFactory.getUserListingNFT(this.defaultAccount)
+            let mints = await this.$eth.c.zuckFactory.getMintedTokenIds()
+            this.items = mints.length
             await this.getMyIds()
             await this.getSellList()
             await this.getAllList()
