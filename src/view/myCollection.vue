@@ -2,6 +2,9 @@
     <div class="place" @mousedown="mouseDown">
         <Header />
         <div class="colPanel">
+            <div class="withdrawbtn">
+                <el-button class="btn" :loading="withdrawing" :disabled="withdrawing" @click="withdrawBnb">Withdraw</el-button>
+            </div>
             <div class="content" v-if="saleList.length>0">
                 <div v-for="item, index of saleList" :key="index" class="item-box" :class="index !== 0 && parseInt((index + 1) / 5) == parseFloat((index + 1) / 5)  ? '' : 'item-five'">
                     <img :src="item.imageurl" alt="" @click="toDetails(item)">
@@ -73,28 +76,58 @@
                 defaultAccount:'',
                 sellList:[],
                 isDoing:false,
-                doingId:0
+                doingId:0,
+                mySaleNftList:[],
+                withdrawing:false
             }
         },
         methods: {
             async getInfos(){
                 this.sellList = []
                 this.nftList = []
-                let res = await this.$axios.get('/api/getsellListing/showall/1/editon/0/rank/0/price/0/background/0/page/0')
-                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/editon/0/rank/0/price/0/background/0/page/0')
+                let res = await this.$axios.get('/api/getsellListing/showall/1/tokenid/0/editon/0/rank/0/price/0/background/0/page/0')
+                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/tokenid/0/editon/0/rank/0/price/0/background/0/page/0')
                 if(sellRes.status === 200){
-                    this.sellList = sellRes.data
+                    this.sellList = sellRes.data.list
                 }
                 if(res.status === 200){
-                    this.nftList = res.data
+                    this.nftList = res.data.list
                     this.getMyCol()
                 }
+            },
+            async withdrawBnb(){
+                this.withdrawing = true
+                // let bnbbalance = await this.$eth.c.zuckFactory.userPurseNFT(this.defaultAccount)
+                // if(parseInt(bnbbalance) == 0){
+                //     ElMessage({
+                //         message: 'You do not have bnb left',
+                //         type: 'error',
+                //     })
+                //     this.withdrawing = false
+                //     return
+                // }
+                try{
+                    let res = await this.$eth.c.zuckFactory.withDrawListingBNB()
+                    await res.wait()
+                    ElMessage({
+                        message: 'Success',
+                        type: 'success',
+                    })
+                    this.withdrawing = false
+                }catch{
+                    ElMessage({
+                        message: 'You do not have bnb left',
+                        type: 'error',
+                    })
+                    this.withdrawing = false
+                }
+                
             },
             async getMyCol(){
                 // 查询用户拥有的卡牌
                 let balance = await this.$eth.c.zuckNft.balanceOf(this.defaultAccount)
                 balance = parseInt(balance)
-                if (!balance) return
+                if (!balance && this.mySaleNftList.length == 0) return
                 const promises = []
                 for (let i = 0; i < balance; i++) {
                     const p = async () => {
@@ -111,22 +144,32 @@
                     const tokenId = parseInt(item.value.tokenId)
                     myRes.push(tokenId)
                 }
+                this.mySaleNftList.forEach((item)=>{
+                    if(parseInt(item) == 0) return
+                    myRes.push(parseInt(item))
+                })
+                debugger
                 if(myRes){
                     this.saleList = []
                     myRes.forEach((item,index) => {
-                        let cur = this.nftList[parseInt(item) - 1]
+                        let cur = this.nftList.filter((ktem)=>{
+                            return ktem.tokenId == item
+                        })
                         let selldata = this.sellList.filter((ktem)=>{
                             return ktem.tokenId == item
                         })
-                        if(selldata.length>0){
-                            cur.isSell = true
-                        }else{
-                            cur.isSell = false
+                        if(cur.length>0){
+                            if(selldata.length>0){
+                                cur[0].isSell = true
+                            }else{
+                                cur[0].isSell = false
+                            }
+                            cur[0].bnbPriceVal = (cur[0].bnbPrice / Math.pow(10,18)).toFixed(2)
+                            cur[0].lastPriceVal = (cur[0].lastPrice / Math.pow(10,18)).toFixed(2)
+                            this.saleList.push(cur[0])
+                            console.log(this.saleList)
                         }
-                        cur.bnbPriceVal = (cur.bnbPrice / Math.pow(10,18)).toFixed(2)
-                        cur.lastPriceVal = (cur.lastPrice / Math.pow(10,18)).toFixed(2)
-                        this.saleList.push(cur)
-                        console.log(this.saleList)
+                        
                     })
                 }
             },
@@ -194,7 +237,6 @@
                 }
             },
             toDetails(item) {
-                debugger
                 this.$router.push({ path: '/saleDetail', query: { item:JSON.stringify(item) }})
             },
             handleSizeChange() {},
@@ -202,6 +244,7 @@
         },
         async created(){
             this.defaultAccount = await this.$eth.signer.getAddress()
+            this.mySaleNftList = await this.$eth.c.zuckFactory.getUserListingNFT(this.defaultAccount)
             this.getInfos()
         }
     }
@@ -214,6 +257,16 @@
     background: url('../assets/myBox/place_bg1.jpg') no-repeat center/100% 100%;
     .colPanel{
         min-height:60vh;
+    }
+    .withdrawbtn{
+        width:1200px;
+        margin:0 auto;
+        text-align:right;
+        .btn{
+            background:#06FEFE;
+            color:#000000;
+            border:none;
+        }
     }
     .search-item {
         width: 668px;
@@ -498,6 +551,11 @@
     .place {
         padding-top: 4rem;
         background: url('../assets/myBox/place_bg1_min.png') no-repeat center/100% 100%;
+        .withdrawbtn{
+            width:auto;
+            padding:0 15px;
+
+        }
         .search-item {
             width: 17.63rem;
             height: auto;

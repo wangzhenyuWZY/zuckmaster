@@ -154,7 +154,7 @@
         methods: {
             checkList(){
                 if(this.editionPutVal){
-                    
+                    this.getAllList()
                 }else{
                     ElMessage({
                         message: 'Please enter Tokenid',
@@ -215,7 +215,6 @@
             async getInfos(){
                 let res = await this.$axios.get('/api/marketinformation')
                 if(res.status === 200){
-                    this.items = res.data.items
                     this.owners = res.data.owners
                     this.floorPrice = (res.data.floorPrice / Math.pow(10,18)).toFixed(2)
                 }
@@ -225,7 +224,7 @@
                 this.myRes = []
                 let balance = await this.$eth.c.zuckNft.balanceOf(this.defaultAccount)
                 balance = parseInt(balance)
-                if (!balance) return
+                if (!balance && this.mySaleNftList.length == 0) return
                 const promises = []
                 for (let i = 0; i < balance; i++) {
                     const p = async () => {
@@ -242,6 +241,10 @@
                     const tokenId = parseInt(item.value.tokenId)
                     myRes.push(tokenId)
                 }
+                this.mySaleNftList.forEach((item)=>{
+                    if(parseInt(item) == 0) return
+                    myRes.push(parseInt(item))
+                })
                 this.myRes = myRes
                 
             },
@@ -269,7 +272,11 @@
             },
             async getAllList(){
                 this.saleList = []
-                let res = await this.$axios.get('/api/getsellListing/showall/'+this.isAll+'/editon/'+this.editionVal+'/rank/'+this.rankVal+'/price/'+this.priceVal+'/background/'+this.bgVal+'/page/'+this.currentPage)
+                let editionPutVal = 0
+                if(this.editionPutVal){
+                    editionPutVal = this.editionPutVal
+                }
+                let res = await this.$axios.get('/api/getsellListing/showall/'+this.isAll+'/tokenid/'+editionPutVal+'/editon/'+this.editionVal+'/rank/'+this.rankVal+'/price/'+this.priceVal+'/background/'+this.bgVal+'/page/'+this.currentPage)
                 if(res.status === 200){
                     this.saleList = res.data.list
                     this.pageTotal = res.data.pageTotal
@@ -278,9 +285,13 @@
             },
             async getSellList(){
                 this.isSellList = []
-                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/editon/'+this.editionVal+'/rank/'+this.rankVal+'/price/'+this.priceVal+'/background/'+this.bgVal+'/page/0')
+                let editionPutVal = 0
+                if(this.editionPutVal){
+                    editionPutVal = this.editionPutVal
+                }
+                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/tokenid/0/editon/0/rank/0/price/0/background/0/page/0')
                 if(sellRes.status === 200){
-                    this.isSellList = sellRes.data
+                    this.isSellList = sellRes.data.list
                 }
             },
             // 获取本地指定文件夹所有图片
@@ -382,6 +393,9 @@
             this.defaultAccount = await this.$eth.signer.getAddress()
             let bnbBalance = await this.$eth.provider.getBalance(this.defaultAccount)
             this.bnbBalance = parseInt(bnbBalance)
+            this.mySaleNftList = await this.$eth.c.zuckFactory.getUserListingNFT(this.defaultAccount)
+            let mints = await this.$eth.c.zuckFactory.getMintedTokenIds()
+            this.items = mints.length
             await this.getMyIds()
             await this.getSellList()
             await this.getAllList()

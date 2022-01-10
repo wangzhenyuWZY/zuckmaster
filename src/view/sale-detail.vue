@@ -14,6 +14,7 @@
                     </div>
                     <div class="btn-box" v-if="!isSell">
                         <el-button v-show="isMe" class="btn" @click="showPop = true">For sale</el-button>
+                        <el-button v-show="!isMe" class="btn">Not For Sale</el-button>
                     </div>
                     <div class="btn-box" v-if="isSell">
                         <el-button class="btn" @click="cancelNft" v-show="isMe" :loading="isDoing" :disabled="isDoing">Cancel Listing</el-button>
@@ -138,9 +139,9 @@
                 this.getMyCol()
             },
             async getMyCol(){
-                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/editon/0/rank/0/price/0/background/0/page/0')
+                let sellRes = await this.$axios.get('/api/getsellListing/showall/0/tokenid/0/editon/0/rank/0/price/0/background/0/page/0')
                 if(sellRes.status === 200){
-                    let thiscol = sellRes.data.filter((item)=>{
+                    let thiscol = sellRes.data.list.filter((item)=>{
                         return item.tokenId == this.saleData.tokenId
                     })
                     if(thiscol.length>0){
@@ -150,7 +151,7 @@
                 this.myRes = []
                 let balance = await this.$eth.c.zuckNft.balanceOf(this.defaultAccount)
                 balance = parseInt(balance)
-                if (!balance) return
+                if (!balance && this.mySaleNftList.length == 0) return
                 const promises = []
                 for (let i = 0; i < balance; i++) {
                     const p = async () => {
@@ -167,6 +168,10 @@
                     const tokenId = parseInt(item.value.tokenId)
                     myRes.push(tokenId)
                 }
+                this.mySaleNftList.forEach((item)=>{
+                    if(parseInt(item) == 0) return
+                    myRes.push(parseInt(item))
+                })
                 if(myRes){
                     let thiscol = myRes.filter((item) => {
                         return parseInt(item) == this.saleData.tokenId
@@ -240,6 +245,7 @@
         },
         async created () {
             this.defaultAccount = await this.$eth.signer.getAddress()
+            this.mySaleNftList = await this.$eth.c.zuckFactory.getUserListingNFT(this.defaultAccount)
             this.saleData = JSON.parse(this.$route.query.item);
             let bnbBalance = await this.$eth.provider.getBalance(this.defaultAccount)
             this.bnbBalance = bnbBalance

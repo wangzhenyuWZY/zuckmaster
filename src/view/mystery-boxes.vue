@@ -224,11 +224,11 @@
                 this.mintNum = mints.length
             },
             async checkMint(){
-                ElMessage({
-                    message: 'Coming Soon',
-                    type: 'success',
-                })
-                return
+                // ElMessage({
+                //     message: 'Coming Soon',
+                //     type: 'success',
+                // })
+                // return
                 this.isDoing = true
                 if(this.isApproved){
                     this.doMint()
