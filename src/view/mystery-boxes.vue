@@ -48,8 +48,8 @@
                     <div class="total">
                         <span>（{{number?number:0}}/MAX）</span><span>Total:<span class="total-price">{{totalPrice}} ZUCK</span></span>
                     </div>
-                    <!-- <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve'}}</el-button> -->
-                    <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">Mint Now</el-button>
+                    <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve Zuck'}}</el-button>
+                    <!-- <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">Mint Now</el-button> -->
                 </div>
             </div>
             <div class="min-icon-box">
@@ -156,7 +156,7 @@
                     </div>
                     <div class="max-type">
                         <img src="../assets/myBox/box_img6.png" alt="">
-                        <div class="name">King MAX</div>
+                        <div class="name">Mars MAX</div>
                     </div>
                 </div>
             </div>

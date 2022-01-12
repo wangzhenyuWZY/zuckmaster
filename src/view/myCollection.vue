@@ -428,7 +428,6 @@
 
     .content {
         width: 1200px;
-        min-height: 976px;
         margin: 54px auto 0;
         display: flex;
         flex-flow: wrap;
@@ -681,7 +680,6 @@
 
         .content {
             width: 94%;
-            min-height: 61rem;
             margin: 1rem auto 0;
             display: flex;
             flex-flow: wrap;
