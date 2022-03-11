@@ -8,7 +8,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: () => import('./view/home.vue')
+            component: () => import('./view/newHome.vue')
         },
         {
             path: '/MysteryBoxes',

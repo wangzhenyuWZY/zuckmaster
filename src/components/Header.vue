@@ -5,18 +5,19 @@
           <img src="../assets/logo.png" class="logo">
         </div>
         <div class="menus">
-            <a class="menu" @click="toLink(0)">Home</a>
-            <a class="menu" @click="toLink(1)">Tokenomics</a>
-            <a class="menu" @click="toLink(2)">RoadMap</a>
-            <a class="menu" @click="toLink(3)">Community</a>
-            <a class="menu" @click="toLink(4)">Mystery Boxes</a>
-            <a class="menu" @click="toLink(6)">Marketplace</a>
-            <a class="menu" @click="toLink(7)">My Collection</a>
+            <a class="menu active" @click="toLink(0)"><span>Home</span></a>
+            <a class="menu" @click="toLink(1)"><span>Mint</span></a>
+            <a class="menu" @click="toLink(2)"><span>Tokenomics</span></a>
+            <a class="menu" @click="toLink(3)"><span>NTF</span></a>
+            <a class="menu" @click="toLink(4)"><span>Metaverse</span></a>
+            <a class="menu" @click="toLink(6)"><span>RoadMap</span></a>
+            <a class="menu" @click="toLink(7)"><span>WhitePaper</span></a>
+            <a class="menu" @click="toLink(8)"><span>Audit</span></a>
         </div>
-        <div class="wallet">
+        <!-- <div class="wallet">
           <img src="../assets/bsc.jpg" >
           {{defaultAddress}}
-        </div>
+        </div> -->
     </div>
     <div class="mobHeader">
       <div class="nav_merge">
@@ -165,26 +166,25 @@ export default {
 //     font-family: DFPBuDingW12; 
 //     src:url('../assets/DFPBuDingW12.ttf');
 // }
+.headerContainer{
+  width:100%;
+  background:#000;
+}
 .header{
     // font-family: DFPBuDingW12;
-    height:88px;
+    height:78px;
     display:flex;
     justify-content:space-between;
     opacity:1;
-    width:1200px;
+    width:1250px;
     margin:0 auto;
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
     z-index:9;
-    align-item:center;
+    align-items: center;
     .more{
       display:none;
     }
     .logo{
-        width:230px;
-        margin-top:18px;
+        width:250px;
     }
     .wallet{
       font-size:12px;
@@ -198,19 +198,38 @@ export default {
     }
     .menus{
         display:flex;
-        padding-top:30px;
         padding-left:0;
         .menu{
-            font-size:14px;
-            color:#fff;
-            line-height:24px;
+            font-size:20px;
+            color:#DC2BFE;
+            line-height:78px;
             position:relative;
-            margin:0 10px;
             cursor: pointer;
-            height:20px;
-            text-transform: uppercase;
-            &:active{
-              color:#06FEFE; 
+            height:100%;
+            width:150px;
+            text-align:center;
+            margin-left:-20px;
+            span{
+              position:relative;
+              z-index:2;
+            }
+            &.active{
+              color:#fff;
+                &:before{
+                  content: '';
+                  position: absolute;
+                  transform: skewX(-22deg);
+                  left: 15px;
+                  right: 15px;
+                  top: 0;
+                  bottom: 0;
+                  z-index: 1;
+                  background: linear-gradient(90deg, #EF2AFE 0%, #6E33FD 100%);
+                }
+            }
+            
+            &:first-child{
+              margin-left:0;
             }
         }
     }
