@@ -1,19 +1,25 @@
 <template>
   <div class="homeContainer">
-    <div class="banner">
-      <img src="../assets/home_banner.png">
+     <Header @toMenu="toMenu"/> 
+    <div class="banner" id="Home">
+      <img src="../assets/home_banner.png" class="banner_p">
+      <img src="../assets/home_bannerM.png" class="banner_m">
+      <p class="bannerInfo">ZUCK is jumping the metaverse and so are we</p>
       <div class="contactType">
-        <a target="_blank" href="/"><img src="../assets/linkImg1.png"></a>
-        <a target="_blank" href="/"><img src="../assets/linkImg2.png"></a>
-        <a target="_blank" href="/"><img src="../assets/linkImg3.png"></a>
-        <a target="_blank" href="/"><img src="../assets/linkImg4.png"></a>
-        <a target="_blank" href="/"><img src="../assets/linkImg5.png"></a>
+        <a target="_blank" href="https://bscscan.com/token/0x81b242276afa697b118554f8cea4a5b09743a70b"><img src="../assets/linkImg1.png"></a>
+        <a target="_blank" href="https://www.dextools.io/app/bsc/pair-explorer/0x95bb113dd24fc4ec63da3ca7b4e5c54233b4809f"><img src="../assets/linkImg2.png"></a>
+        <a target="_blank" href="https://twitter.com/ZuckMeta"><img src="../assets/linkImg3.png"></a>
+        <a target="_blank" href="https://t.me/ZUCKMETAWORLD"><img src="../assets/linkImg4.png"></a>
+        <a target="_blank" href="https://t.me/ZuckAnnouncement"><img src="../assets/linkImg5.png"></a>
         <a target="_blank" href="/"><img src="../assets/linkImg6.png"></a>
         <a target="_blank" href="/"><img src="../assets/linkImg7.png"></a>
       </div>
     </div>
-    <div class="mintPanel">
+    <div class="mintPanel" id="Mint">
       <div class="basiCon mintCon">
+        <div class="titleBox mobShow">
+            <h2>MINT YOUR MAX</h2>
+        </div>
         <div class="bigImg">
             <img class="" src="../assets/home_zuck.gif" alt="">
           <!-- <div class="swiper-box">
@@ -29,6 +35,7 @@
         <div class="img-desc">
           <div class="sale">MINT YOUR MAX <span class="soon">COMING SOON</span></div>
             <!-- <div class="max">CLAIM YOUR MAX</div> -->
+            <p class="comsoon">COMING SOON</p>
             <div class="mint">
                 Enter how many MAXs you would like to mint here
                 <br>MAX minted: {{mintNum}} / 1,000
@@ -56,76 +63,92 @@
             <div class="total">
                 <span>（{{number?number:0}}/MAX）</span><span>Total:<span class="total-price">{{totalPrice}} ZUCK</span></span>
             </div>
-            <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve Zuck'}}</el-button>
+            <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve ZUCK'}}</el-button>
             <!-- <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">Mint Now</el-button> -->
         </div>
       </div>
-      <div class="titleBox">
+      <div class="titleBox mobHide">
         <h2>TOKENOMICS</h2>
         <p><span>8%</span> TRANSACTION TAX</p>
       </div>
     </div>
-    <div class="tokenomicsPanel">
+    <div class="tokenomicsPanel" id="Tokenomics">
         <div class="basiCon tokenCon">
-            <div class="tokenItem">
-                <div class="percen"><span>3%</span></div>
-                <div class="wrap">
-                    <h2 class="tokenTitle">Marketing and Brand</h2>
-                    <p class="tokenInfo">3% of all transactions are used for marketing expenses to establish the project more globally</p>
-                </div>
+            <div class="titleBox mobShow">
+                <h2>TOKENOMICS</h2>
+                <p><span>8%</span> TRANSACTION TAX</p>
             </div>
-            <div class="tokenItem">
-                <div class="percen"><span>2%</span></div>
-                <h2 class="tokenTitle">Redistributions</h2>
-                <p class="tokenInfo">2% fee of each transaction (sell/buy) is redistributed to ZUCK holders.</p>
-            </div>
-            <div class="tokenItem">
-                <div class="percen"><span>3%</span></div>
-                <h2 class="tokenTitle">Auto Liquidity Pool </h2>
-                <p class="tokenInfo">3% of all transactions will be added to liquidity to create an ever-increasing price floor</p>
-            </div>
-            <div class="tokenItem">
-                <div class="tokenImg"><img src="../assets/home_tokenImg1.png"></div>
-                <h2 class="zuckTitle">$ZUCK  Meta</h2>
-                <p class="zuckTokenInfo">Total Supply:1,000,000,000,000</p>
-                <div class="distribute">
-                    <div class="disItem">
-                        <div class="percen"><div class="perInner"><span>47<a>%</a></span></div></div>
-                        <p class="disInfo">Presale IDO</p>
-                    </div>
-                    <div class="disItem">
-                        <div class="percen"><div class="perInner"><span>33<a>%</a></span></div></div>
-                        <p class="disInfo">Initial Liquidity Pool</p>
-                    </div>
-                    <div class="disItem">
-                        <div class="percen"><div class="perInner"><span>3<a>%</a></span></div></div>
-                        <p class="disInfo">ZuckSwap</p>
-                    </div>
-                    <div class="disItem">
-                        <div class="percen"><div class="perInner"><span>15<a>%</a></span></div></div>
-                        <p class="disInfo">ZUCK DAO</p>
-                    </div>
-                    <div class="disItem">
-                        <div class="percen"><div class="perInner"><span>2<a>%</a></span></div></div>
-                        <p class="disInfo">ZUCK Mammon</p>
+            <div class="tokenList">
+                <div class="tokenItem">
+                    <div class="percen"><span>3%</span></div>
+                    <div class="wrap">
+                        <h2 class="tokenTitle">Marketing and Brand</h2>
+                        <p class="tokenInfo">3% of all transactions are used for marketing expenses to establish the project more globally</p>
                     </div>
                 </div>
-            </div>
-            <div class="tokenItem">
-                <div class="tokenImg"><img src="../assets/home_tokenImg2.png"></div>
-                <h2 class="zuckTitle">LIQUIDITY LOCKED</h2>
-                <p class="zuckTokenInfo">50 YEAR VIA PINKSALE</p>
-                <a class="proofBtn"><img src="../assets/home_proof.png"></a>
-            </div>
-            <div class="tokenItem">
-                <div class="tokenImg"><img src="../assets/home_tokenImg3.png"></div>
-                <h2 class="zuckTitle">ZUCK DAO</h2>
-                <p class="zuckTokenInfo">15% of the $ZUCK tokens have been allocated to theZUCKDAO to:</p>
-                <p class="support">Support DAO communities
-                    <br>Support NFT communities
-                    <br>Support ZUCK brand building
-                    <br>Support our Developer Grant for participating in the $ZUCK ecosystem</p>
-            </div>
+                <div class="tokenItem">
+                    <div class="percen"><span>2%</span></div>
+                    <div class="wrap">
+                        <h2 class="tokenTitle">Redistributions</h2>
+                        <p class="tokenInfo">2% fee of each transaction (sell/buy) is redistributed to ZUCK holders.</p>
+                    </div>
+                </div>
+                <div class="tokenItem">
+                    <div class="percen"><span>3%</span></div>
+                    <div class="wrap">
+                        <h2 class="tokenTitle">Auto Liquidity Pool </h2>
+                        <p class="tokenInfo">3% of all transactions will be added to liquidity to create an ever-increasing price floor</p>
+                    </div>
+                </div>
+                <div class="tokenItem">
+                    <div class="tokenImg"><img src="../assets/home_tokenImg1.png"></div>
+                    <div class="wrap">
+                        <h2 class="zuckTitle">$ZUCK  Meta</h2>
+                        <p class="zuckTokenInfo">Total Supply:1,000,000,000,000</p>
+                    </div>
+                    <div class="distribute">
+                        <div class="disItem">
+                            <div class="percen"><div class="perInner"><span>47<a>%</a></span></div></div>
+                            <p class="disInfo">Presale IDO</p>
+                        </div>
+                        <div class="disItem">
+                            <div class="percen"><div class="perInner"><span>33<a>%</a></span></div></div>
+                            <p class="disInfo">Initial Liquidity Pool</p>
+                        </div>
+                        <div class="disItem">
+                            <div class="percen"><div class="perInner"><span>3<a>%</a></span></div></div>
+                            <p class="disInfo">ZuckSwap</p>
+                        </div>
+                        <div class="disItem">
+                            <div class="percen"><div class="perInner"><span>15<a>%</a></span></div></div>
+                            <p class="disInfo">ZUCK DAO</p>
+                        </div>
+                        <div class="disItem">
+                            <div class="percen"><div class="perInner"><span>2<a>%</a></span></div></div>
+                            <p class="disInfo">ZUCK Mammon</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tokenItem">
+                    <div class="tokenImg"><img src="../assets/home_tokenImg3.png"></div>
+                    <div class="wrap">
+                        <h2 class="zuckTitle">ZUCK DAO</h2>
+                        <p class="zuckTokenInfo">15% of the $ZUCK tokens have been allocated to theZUCKDAO to:</p>
+                    </div>
+                    <p class="support">Support DAO communities
+                        <br>Support NFT communities
+                        <br>Support ZUCK brand building
+                        <br>Support our Developer Grant for participating in the $ZUCK ecosystem</p>
+                </div>
+                <div class="tokenItem">
+                    <div class="tokenImg"><img src="../assets/home_tokenImg2.png"></div>
+                    <div class="wrap">
+                        <h2 class="zuckTitle">LIQUIDITY LOCKED</h2>
+                        <p class="zuckTokenInfo">50 YEAR VIA PINKSALE</p>
+                    </div>
+                    <a class="proofBtn" target="_blank" href="https://pinksale.finance/#/pinklock/record/13241?chain=BSC"><img src="../assets/home_proof.png"></a>
+                </div>
+            </div>    
         </div>
     </div>
     <div class="whyZuckPanel">
@@ -133,12 +156,16 @@
             <div class="titleBox">
                 <h2>WHY zuck ?</h2>
             </div>
+            <div class="whyImg"><img src="../assets/home_whyzuck.png"></div>
             <p class="whyZuck">
                 In the world of Crypto, meme coins are the best way to catch the attention of the mainstream. We felt the best way to brand our project to gain the most amount of eyes and in doing so, help the most amount of metaverse user was to make it something similar to #DOGE & #SHIB which caught huge mainstream attention. What better fit than Zuckerberg, the founder of META –explorers of the metaverse and of course he is also deeply involved in the ZUCKcommunity. This way, we have the attention of the meme coin investors as well as the ZUCK community to create one giant combined positive community involving ZUCK, meme coins & the legend that is Zuckerberg.ZuckMeta is the first Zuckerberg's meme,and it is an open-world metaverse.Zuckerberg's favorite crypto pet is a goat named Max，we have created 10000  Max that exist in NFT form.
             </p>
         </div>
     </div>
-    <div class="maxNftPanel">
+    <div class="maxNftPanel" id="NTF">
+        <div class="titleBox mobShow">
+            <h2>Max, max, max!</h2>
+        </div>
         <div class="basiCon maxNftCon">
             <div class="maxInfo">
                 <h2 class="maxTitle">Max, max, max!</h2>
@@ -146,25 +173,25 @@
                 <p class="maxInfoText">Till now, many NFTs have been created for reasons such as hype and have only been created as art and a picture in hopes they become valuable. MAX NFT are built to be valuable. Only 10,000 born，sold in 10 rounds, and all of ZUCKs in each round will be destroyed in batches.
                     <br><br>
                     What can a MAX NFT do?
-                    1. Reduce ZUCK single transaction tax slippage
-                    2. Obtain ZUCKSWAP's fee dividend privilege
-                    3. Obtain the governance privileges of ZUCKDAO
-                    4. Get dividends from ZUCK Mammon</p>
+                    <br>1. Reduce ZUCK single transaction tax slippage
+                    <br>2. Obtain ZUCKSWAP's fee dividend privilege
+                    <br>3. Obtain the governance privileges of ZUCKDAO
+                    <br>4. Get dividends from ZUCK Mammon</p>
             </div>
             <div class="maxImgList">
-                <div class="maxImgItem"><img src="../assets/home_nftBigImg1.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_nftBigImg1.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_nftBigImg1.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_nftBigImg1.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_nftBigImg1.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_nftBigImg1.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_nftBigImg1.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_nftBigImg1.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_nftBigImg1.png"></div>
+                <div class="maxImgItem"><img src="../assets/home_max1.png"></div>
+                <div class="maxImgItem"><img src="../assets/home_max2.png"></div>
+                <div class="maxImgItem"><img src="../assets/home_max3.png"></div>
+                <div class="maxImgItem"><img src="../assets/home_max4.png"></div>
+                <div class="maxImgItem"><img src="../assets/home_max5.png"></div>
+                <div class="maxImgItem"><img src="../assets/home_max6.png"></div>
+                <div class="maxImgItem"><img src="../assets/home_max7.png"></div>
+                <div class="maxImgItem"><img src="../assets/home_max8.png"></div>
+                <div class="maxImgItem"><img src="../assets/home_max9.png"></div>
             </div>
         </div>
     </div>
-    <div class="metaversePanel">
+    <div class="metaversePanel" id="Metaverse">
         <div class="basiCon metaCon">
             <div class="titleBox">
                 <h2>ZUCK Metaverse</h2>
@@ -211,28 +238,34 @@
     <div class="teamPanel">
         <div class="basiCon teamCon">
             <div class="titleBox">
-                <h2>ZUCK Metaverse</h2>
+                <h2>ZUCK TEAM</h2>
             </div>
             <div class="teamList">
                 <div class="teamItem">
                     <img src="../assets/home_team1.png">
-                    <p class="name">Amos </p>
-                    <p class="job">concept artist, illustration, scripts</p>
+                    <div class="wrap">
+                        <p class="name">Amos </p>
+                        <p class="job">concept artist, illustration, scripts</p>
+                    </div>
                 </div>
                 <div class="teamItem">
                     <img src="../assets/home_team2.png">
-                    <p class="name">Mark Elliot</p>
-                    <p class="job">marketing, community, outreach</p>
+                    <div class="wrap">
+                        <p class="name">Mark Elliot</p>
+                        <p class="job">marketing, community, outreach</p>
+                    </div>
                 </div>
                 <div class="teamItem">
                     <img src="../assets/home_team3.png">
-                    <p class="name">Esteban Ordano</p>
-                    <p class="job">goat enthusiast, community, support</p>
+                    <div class="wrap">
+                        <p class="name">Esteban Ordano</p>
+                        <p class="job">goat enthusiast, community, support</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="roadMapPanel">
+    <div class="roadMapPanel" id="RoadMap">
         <div class="basiCon roadmapCon">
             <div class="titleBox">
                 <h2>DEVELOPMENT ROADMAP</h2>
@@ -308,10 +341,10 @@
                     <img src="../assets/home_foot2.png">
                 </div>
                 <div class="footLink">
-                    <a><img src="../assets/home_link1.png"></a>
-                    <a><img src="../assets/home_link2.png"></a>
-                    <a><img src="../assets/home_link3.png"></a>
-                    <a><img src="../assets/home_link4.png"></a>
+                    <a target="_blank" href="https://twitter.com/ZuckMeta"><img src="../assets/home_link1.png"></a>
+                    <a target="_blank" href="https://t.me/ZUCKMETAWORLD"><img src="../assets/home_link2.png"></a>
+                    <a target="_blank" href="https://www.facebook.com/profile.php?id=100075505755366"><img src="../assets/home_link3.png"></a>
+                    <a target="_blank" href="https://zuckmetaverse.gitbook.io/zuck/"><img src="../assets/home_link4.png"></a>
                 </div>
             </div>
         </div>
@@ -332,6 +365,12 @@
   .titleBox{
     text-align:center;
     padding:26px 0 35px;
+    &.mobHide{
+        display:block;
+    }
+    &.mobShow{
+        display: none;
+    }
     h2{
       font-family: STSongti-TC-Regular, STSongti-TC;
       line-height:100%;
@@ -341,6 +380,7 @@
       -webkit-text-fill-color: transparent;
       font-weight: bold;
       font-size: 70px;
+      text-transform: uppercase;
     }
     p{
         font-size:36px;
@@ -357,6 +397,15 @@
     position:relative;
     img{
       width:100%;
+    }
+    .banner_p{
+        display:block;
+    }
+    .banner_m{
+        display:none;
+    }
+    .bannerInfo{
+        display:none;
     }
     .contactType{
       position:absolute;
@@ -380,6 +429,9 @@
       justify-content: space-between;
       align-items: flex-start;
       padding-bottom:240px;
+      .mobShow{
+            display: none;
+        }
       .bigImg{
           width:476px;
           height:476px;
@@ -391,6 +443,9 @@
       .img-desc {
           text-align: left;
           width:595px;
+          .comsoon{
+              display:none;
+          }
           .sale {
               font-size: 46px;
               font-family: STSongti-TC-Regular, STSongti-TC;
@@ -541,7 +596,7 @@
           height:100%;
           .tokenItem{
               position:absolute;
-              &:nth-child(1){
+              &:nth-of-type(1){
                   display:flex;
                   justify-content: start;
                   top:0;
@@ -552,7 +607,7 @@
                       margin-left:20px;
                   }
               }
-              &:nth-child(2){
+              &:nth-of-type(2){
                   width:400px;
                   top:14%;
                   .percen{
@@ -560,12 +615,12 @@
                       left:180px;
                   }
               }
-              &:nth-child(3){
+              &:nth-of-type(3){
                   width:400px;
                   top:16%;
                   right:-70px;
               }
-              &:nth-child(4){
+              &:nth-of-type(4){
                   width:400px;
                   top:42%;
                   .tokenImg{
@@ -574,7 +629,7 @@
                       margin-bottom:0;
                   }
               }
-              &:nth-child(5){
+              &:nth-of-type(6){
                   width:360px;
                   bottom:18%;
                   left:35%;
@@ -592,7 +647,7 @@
                       color:#2EBBEF;
                   }
               }
-              &:nth-child(6){
+              &:nth-of-type(5){
                   width:360px;
                   top:42%;
                   right:-70px;
@@ -651,8 +706,7 @@
                   }
               }
               .zuckTitle{
-                    font-size: 36px;
-                    font-family: STSongti-TC-Bold, STSongti-TC;
+                    font-size: 35px;
                     font-weight: bold;
                     color: #FFB975;
                     line-height: 35px;
@@ -662,7 +716,6 @@
               }
               .zuckTokenInfo{
                     font-size: 22px;
-                    font-family: STSongti-TC-Bold, STSongti-TC;
                     font-weight: bold;
                     color: #FFB975;
                     line-height: 35px;
@@ -755,7 +808,6 @@
                               border-radius:50%;
                           }
                           span{
-                            font-family: STSongti-TC-Bold, STSongti-TC;
                             font-weight: bold;
                             color: #18BDD9;
                             line-height: 66px;
@@ -807,6 +859,9 @@
               position: relative;
                 top: -40px;
           }
+          .whyImg{
+              display:none;
+          }
           .whyZuck{
             font-size: 20px;
             font-weight: bold;
@@ -836,7 +891,7 @@
                 padding:36px 0 20px;
               }
               .maxInfoText{
-                font-size: 28px;
+                font-size: 20px;
                 font-weight: bold;
                 color: #FCDAFF;
                 line-height: 40px;
@@ -997,30 +1052,65 @@
                   &:nth-child(1){
                       top:85px;
                       right:48.9%;
+                      .mapInfo{
+                          background:url(../assets/home_mapLeft.png) no-repeat center;
+                          background-size:100% 100%;
+                          margin-right: 20px;
+                      }
                   }
                   &:nth-child(2){
                       top:198px;
-                      left:48.9%;
+                      left:49.1%;
+                      .mapInfo{
+                          background:url(../assets/home_mapRight.png) no-repeat center;
+                          background-size:100% 100%;
+                          margin-left: 20px;
+                      }
                   }
                   &:nth-child(3){
                       top:310px;
                       right:48.9%;
+                      .mapInfo{
+                          background:url(../assets/home_mapLeft.png) no-repeat center;
+                          background-size:100% 100%;
+                          margin-right: 20px;
+                      }
                   }
                   &:nth-child(4){
                       top:423px;
-                      left:48.9%;
+                      left:49.1%;
+                      .mapInfo{
+                          background:url(../assets/home_mapRight.png) no-repeat center;
+                          background-size:100% 100%;
+                          margin-left: 20px;
+                      }
                   }
                   &:nth-child(5){
                       top:536px;
                       right:48.9%;
+                      .mapInfo{
+                          background:url(../assets/home_mapLeft.png) no-repeat center;
+                          background-size:100% 100%;
+                          margin-right: 20px;
+                      }
                   }
                   &:nth-child(6){
                       top:653px;
-                      left:48.9%;
+                      left:49.1%;
+                      .mapInfo{
+                          background:url(../assets/home_mapRight.png) no-repeat center;
+                          background-size:100% 100%;
+                          margin-left: 20px;
+                      }
                   }
                   &:nth-child(7){
                       top:778px;
                       right:48.9%;
+                      .mapInfo{
+                          background:url(../assets/home_mapLeft.png) no-repeat center;
+                          background-size:100% 100%;
+                          margin-right: 20px;
+                      }
                   }
                   i{
                       display:block;
@@ -1033,9 +1123,6 @@
                   .mapInfo{
                       width: 391px;
                         height: 95px;
-                        background: rgba(0, 0, 0, 0.8);
-                        border: 4px solid;
-                        border-image: linear-gradient(135deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 4 4;
                         padding:14px 0 0 24px;
                         box-sizing: border-box;
                         h2{
@@ -1088,10 +1175,532 @@
               a{
                   display:block;
                   margin:0 10px;
+                  cursor: pointer;
               }
           }
       }
   }
+}
+@media screen and (max-width:900px) {
+   .homeContainer{
+      .basiCon{
+          width:100%;
+      } 
+      .titleBox{
+          padding:10px 0 14px;
+          &.mobHide{
+            display:none;
+        }
+        &.mobShow{
+            display: block;
+        }
+        h2{
+            font-size:35px;
+            text-align:center;
+        }
+        p{
+            font-size:11px;
+            padding-top:10px;
+            span{
+                font-size:23px;
+            }
+        }
+      }
+      .banner{
+          .banner_p{
+                display:none;
+            }
+            .banner_m{
+                display:block;
+            }
+            .bannerInfo{
+                display:block;
+                position:absolute;
+                top:422px;
+                padding:0 40px;
+                text-align:center;
+                font-size: 32px;
+                font-weight: bold;
+                color: #FCDAFF;
+                line-height: 36px;
+                text-shadow: 0px 0px 4px #171A55;
+            }
+          .contactType{
+              justify-content: center;
+                width: 100%;
+                left:0;
+                bottom:8%;
+              a{
+                  margin:0 4px;
+                  img{
+                      width:42px;
+                  }
+              }
+          }
+      }
+      .mintPanel{
+          background:url(../assets/home_bg2m.png) no-repeat center;
+          background-size:100% 100%;
+          .titleBox{
+                width:100%;
+            }
+          .mintCon{
+              padding-bottom:0;
+              flex-wrap: wrap;
+              
+              .bigImg{
+                  width:346px;
+                  height:346px;
+                  margin:0 auto;
+              }
+              .img-desc{
+                  padding:15px;
+                  .sale{
+                      display:none;
+                  }
+                  .comsoon{
+                      display:block;
+                    font-size: 18px;
+                    font-weight: 400;
+                    color: #FCDAFF;
+                    line-height: 25px;
+                    letter-spacing: 1px;
+                  }
+                  .mint{
+                      font-size:18px;
+                      line-height:25px;
+                  }
+                  .price{
+                      height:70px;
+                      padding:0 10px 0 4px;
+                      .swiper-box-min{
+                          width:59px;
+                          height:59px;
+                      }
+                      .desc{
+                          font-size:13px;
+                          .zuck{
+                              font-size:23px;
+                          }
+                      }
+                  }
+                  .number{
+                      height:50px;
+                      div{
+                          width:40px;
+                          height:50px;
+                          font-size:26px;
+                          line-height:50px;
+                      }
+                      input{
+                          width:266px;
+                          font-size:20px;
+                          line-height:50px;
+                          letter-spacing:2px;
+                          &::-webkit-input-placeholder{
+                              font-size:20px;
+                          }
+                      }
+                  }
+                  .total{
+                      .total-price{
+                          font-size:23px;
+                      }
+                  }
+                  .mint-btn{
+                      height:53px;
+                      border:2px solid;
+                      font-size:30px;
+                      line-height:53px;
+                  }
+              }
+          }
+      }
+      .tokenomicsPanel{
+          background:url(../assets/home_bg3m.png) no-repeat center;
+        background-size:cover;
+        height:1646px;
+        .tokenCon{
+            .titleBox{
+                padding-bottom:30px;
+            }
+            .tokenList{
+                padding: 0 15px;
+            }
+            .tokenItem{
+                position:initial;
+                &:nth-of-type(1),&:nth-of-type(2),&:nth-of-type(3){
+                    width:100%;
+                    display:flex;
+                    margin-bottom:20px;
+                    .percen{
+                        left:0;
+                    }
+                    .wrap{
+                        width:80%;
+                        margin-left:6px;
+                    }
+                }
+                &:nth-of-type(4),&:nth-of-type(5),&:nth-of-type(6){
+                    width:100%;
+                    display:flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    .tokenImg{
+                        position:initial;
+                        margin:0;
+                    }
+                    .wrap{
+                        width:71%;
+                        .zuckTitle{
+                            font-size:35px;
+                        }
+                        .zuckTokenInfo{
+                            font-size:16px;
+                            line-height:20px;
+                        }
+                    }
+                    .distribute{
+                        padding-top:15px;
+                        padding-bottom:50px;
+                        .disItem{
+                            .disInfo{
+                                width:120px;
+                            }
+                        }
+                    }
+                    .support{
+                        font-size:19px;
+                        padding-left:15px;
+                        padding-bottom:30px;
+                    }
+                }
+                .percen{
+                    width: 64px;
+                    height: 64px;
+                    font-size:26px;
+                    line-height: 64px;
+                    padding:2px;
+                }
+                .wrap{
+                    width:80%;
+                    margin-left:6px;
+                    .tokenTitle{
+                        font-size:24px;
+                        padding-bottom:2px;
+                    }
+                    .tokenInfo{
+                        font-size:15px;
+                        line-height:16px;
+                    }
+                }
+                &:nth-of-type(4){
+                    padding-top:324px;
+                }
+                &:nth-of-type(6){
+                    .wrap{
+                        width:71%;
+                        position:relative;
+                        top:-16px;
+                        .zuckTitle{
+                            font-size:26px;
+                        }
+                        .zuckTokenInfo{
+                            font-size:16px;
+                            line-height:20px;
+                        }
+                    }
+                    .proofBtn{
+                        position:relative;
+                        top:-40px;
+                        left:-24px;
+                    }
+                }
+            }
+        }
+      }
+      .whyZuckPanel{
+          background:url(../assets/home_bg4m.png) no-repeat center;
+            background-size:cover;
+            height:auto;
+            .whyZuckCon{
+                padding:0 15px 60px;
+                width:auto;
+                .whyImg{
+                    display:block;
+                    width:100%;
+                    text-align:center;
+                    img{
+                        max-width:100%;
+                    }
+                }
+                .whyZuck{
+                    margin-top:25px;
+                    font-weight:100;
+                    font-size:18px;
+                    line-height:23px;
+                }
+            }
+      }
+      .maxNftPanel{
+          background:url(../assets/home_bg5m.png) no-repeat center;
+            background-size:cover;
+            height:930px;
+            .maxNftCon{
+                flex-wrap: wrap;
+                flex-direction: column-reverse;
+                .maxInfo{
+                    width:auto;
+                    padding:0 15px;
+                    .maxTitle{
+                        display:none;
+                    }
+                    .maxInfoText{
+                        font-size:16px;
+                        line-height: 25px;
+                        &.bigfont{
+                            font-size:28px;
+                            padding-bottom:15px;
+                        }
+                    }
+                }
+                .maxImgList{
+                    width:100%;
+                    height:auto;
+                    margin-bottom:26px;
+                    .maxImgItem{
+                        width:33.3%;
+                        height:auto;
+                    }
+                }
+            }
+      }
+      .metaversePanel{
+          background:url(../assets/home_bg6m.png) no-repeat center;
+            background-size:cover;
+            min-height:0;
+            padding-bottom:60px;
+            .titleBox{
+                p{
+                    font-size:18px;
+                }
+            }
+            .videoBox{
+                width: auto;
+                    height: 170px;
+                    border: 2px solid;
+                    margin:30px 15px;
+            }
+      }
+      .ecosyPanel{
+          background:url(../assets/home_bg7m.png) no-repeat center;
+            background-size:cover;
+            min-height:1312px;
+            .ecosyCon{
+                display:flex;
+                flex-wrap: wrap;
+                width:auto;
+                padding:0 15px;
+                .panelTitle{
+                    font-size: 28px;
+                    line-height: 55px;
+                    padding:0px 0 68px;
+                    order:1;
+                    text-align:center;
+                    width:100%;
+                }
+                .ecosyList{
+                    display:flex;
+                    flex-wrap: wrap;
+                    margin-top:0;
+                    &:nth-of-type(1){
+                        order:2;
+                    }
+                    &:nth-of-type(2){
+                        order:3;
+                    }
+                    .ecosyItem{
+                        width:360px;  
+                        min-height:115px;
+                        height:auto;
+                        border: 2px solid;
+                        border-image: linear-gradient(135deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 4 4;
+                        margin-bottom:66px;
+                        .ecoTitle{
+                            position:absolute;
+                            top:-23px;
+                            left:22px;
+                            z-index:9;
+                            width: 199px;
+                            height: 46px;
+                            border: 2px solid;
+                            border-image: linear-gradient(135deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 4 4;
+                            p{
+                                line-height:42px;
+                                font-size:22px;
+                            }
+                            
+                        }
+                        .ecoText{
+                            font-size: 18px;
+                            line-height: 28px;
+                            padding-top:36px;
+                            padding-left:22px;
+                        }
+                    }
+                }
+            }
+      }
+      .teamPanel{
+          background:url(../assets/home_bg8m.png) no-repeat center;
+            background-size:cover;
+            min-height:550px;
+            .teamCon{
+                padding:0 15px;
+                width:auto;
+                .teamList{
+                    padding-top:20px;
+                    flex-wrap: wrap;
+                    .teamItem{
+                        width: 100%;
+                            height: auto;
+                            border: 2px solid;
+                            border-image: linear-gradient(135deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 4 4;
+                            padding:10px;
+                            display:flex;
+                            justify-content: center;
+                            img{
+                                width:100px;
+                                height:100px;
+                            }
+                            .wrap{
+                                width:80%;
+                                padding-left:15px;
+                            }
+                            .name{
+                                font-size: 30px;
+                                text-align:left;
+                            }
+                            .job{
+                                font-size: 16px;
+                                text-align:left;
+                            }
+                    }
+                }
+            }
+      }
+      .roadMapPanel{
+          background:url(../assets/home_bg9m.png) no-repeat center;
+            background-size:cover;
+            min-height:auto;
+            .roadmapCon{
+                .titleBox{
+                    h2{
+                        font-size:24px;
+                    }
+                }
+                .roadmapBox{
+                    padding-top:30px;
+                    .line{
+                        width:7px;
+                        height:548px;
+                    }
+                    .roadmapList{
+                        .roadmapItem{
+                            &:nth-child(1){
+                                top:48px;
+                            }
+                            &:nth-child(2){
+                                top:120px;
+                            }
+                            &:nth-child(3){
+                                top:196px;
+                            }
+                            &:nth-child(4){
+                                top:272px;
+                            }
+                            &:nth-child(5){
+                                top:342px;
+                            }
+                            &:nth-child(6){
+                                top:414px;
+                            }
+                            &:nth-child(7){
+                                top:482px;
+                            }
+                            &:nth-child(1),&:nth-child(3),&:nth-child(5),&:nth-child(7){
+                                .mapInfo{
+                                    background:url(../assets/home_mapLeftM.png) no-repeat center;
+                                    background-size:100% 100%;
+                                }
+                            }
+                            &:nth-child(2),&:nth-child(4),&:nth-child(6){
+                                .mapInfo{
+                                    background:url(../assets/home_mapRightM.png) no-repeat center;
+                                    background-size:100% 100%;
+                                    padding-left:12px;
+                                }
+                            }
+                            i{
+                                display: none;
+                            }
+                            .mapInfo{
+                                width:176px;
+                                height:80px;
+                                padding-top:0;
+                                padding-left:6px;
+                                h2{
+                                    font-size:21px;
+                                }
+                                p{
+                                    font-size:14px;
+                                    line-height:18px;
+                                }
+                            }
+                        }
+                    }
+                }
+                .partnerBox{
+                    margin:0 15px;
+                    border-top:1px solid #7360CD;
+                    border-bottom:1px solid #7360CD;
+                    justify-content: start;
+                    .partnerImg{
+                        width:116px;
+                        height:40px;
+                        margin:0 3px 16px;
+                    }
+                }
+                .footerBox{
+                    padding-top:34px;
+                    padding-bottom:0;
+                    flex-wrap: wrap;
+                    align-items: flex-start;
+                    .logo{
+                        width:110px;
+                        order:1;
+                        padding-left:15px;
+                        img{
+                            width:100%;
+                        }
+                    }
+                    .footLink{
+                        order:2;
+                        padding-bottom:25px;
+                        img{
+                            width:38px;
+                        }
+                    }
+                    .copyright{
+                        order:3;
+                        width: 100%;
+                        padding:8px 0 12px;
+                        background:#000;
+                    }
+                }
+            }
+      }
+   } 
 }
 </style>
 <script>
@@ -1130,6 +1739,22 @@
             }
         },
         methods: {
+            toMenu(i){
+                if (i===0){
+                    document.querySelector('#Home').scrollIntoView(true)
+                } else if(i===1) {
+                    document.querySelector('#Mint').scrollIntoView(true)
+                } else if(i===2) {
+                    document.querySelector('#Tokenomics').scrollIntoView(true)
+                } else if(i===3) {
+                    document.querySelector('#NTF').scrollIntoView(true)
+                } else if(i===4) {
+                    document.querySelector('#Metaverse').scrollIntoView(true)
+                } else if(i===5) {
+                    document.querySelector('#RoadMap').scrollIntoView(true)
+                }
+                
+            },
             async getInfos(){
                 let balance = await this.$eth.c.zuckToken.balanceOf(this.defaultAccount)
                 this.zuckBalance = parseInt(balance) / Math.pow(10,9)

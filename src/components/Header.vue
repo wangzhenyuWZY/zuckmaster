@@ -5,14 +5,14 @@
           <img src="../assets/logo.png" class="logo">
         </div>
         <div class="menus">
-            <a class="menu active" @click="toLink(0)"><span>Home</span></a>
-            <a class="menu" @click="toLink(1)"><span>Mint</span></a>
-            <a class="menu" @click="toLink(2)"><span>Tokenomics</span></a>
-            <a class="menu" @click="toLink(3)"><span>NTF</span></a>
-            <a class="menu" @click="toLink(4)"><span>Metaverse</span></a>
-            <a class="menu" @click="toLink(6)"><span>RoadMap</span></a>
-            <a class="menu" @click="toLink(7)"><span>WhitePaper</span></a>
-            <a class="menu" @click="toLink(8)"><span>Audit</span></a>
+            <a class="menu" :class="active==0?'active':''" @click="toLink(0)"><span>Home</span></a>
+            <a class="menu" :class="active==1?'active':''" @click="toLink(1)"><span>Mint</span></a>
+            <a class="menu" :class="active==2?'active':''" @click="toLink(2)"><span>Tokenomics</span></a>
+            <a class="menu" :class="active==3?'active':''" @click="toLink(3)"><span>NTF</span></a>
+            <a class="menu" :class="active==4?'active':''" @click="toLink(4)"><span>Metaverse</span></a>
+            <a class="menu" :class="active==5?'active':''" @click="toLink(5)"><span>RoadMap</span></a>
+            <a class="menu" target="_blank" href="https://zuckmetaverse.gitbook.io/zuck/"><span>WhitePaper</span></a>
+            <a class="menu" target="_blank" href="https://github.com/AuditRateTech/Smart-Contract-Audits/blob/main/ZuckMeta_0x81B242276afA697b118554F8cEA4A5b09743a70b.pdf"><span>Audit</span></a>
         </div>
         <!-- <div class="wallet">
           <img src="../assets/bsc.jpg" >
@@ -27,13 +27,13 @@
           <i class="closeico" @click="drawer = false"></i>
           <ul class="drawer_nav">
             <li @click="toLink(0)"><a class="menu">Home</a></li>
-            <li @click="toLink(1)"><a class="menu">Tokenomics</a></li>
-            <li @click="toLink(2)"><a class="menu">RoadMap</a></li>
-            <li @click="toLink(3)"><a class="menu">Community</a></li>
-            <li @click="toLink(4)"><a class="menu">Mystery Boxes</a></li>
-            <!-- <li @click="toLink(5)"><a class="menu">IDO</a></li> -->
-            <li @click="toLink(6)"><a class="menu">Marketplace</a></li>
-            <li @click="toLink(7)"><a class="menu">My Collection</a></li>
+            <li @click="toLink(1)"><a class="menu">Mint</a></li>
+            <li @click="toLink(2)"><a class="menu">Tokenomics</a></li>
+            <li @click="toLink(3)"><a class="menu">NTF</a></li>
+            <li @click="toLink(4)"><a class="menu">Metaverse</a></li>
+            <li @click="toLink(5)"><a class="menu">RoadMap</a></li>
+            <li><a class="menu" target="_blank" href="https://zuckmetaverse.gitbook.io/zuck/">WhitePaper</a></li>
+            <li><a class="menu" target="_blank" href="https://github.com/AuditRateTech/Smart-Contract-Audits/blob/main/ZuckMeta_0x81B242276afA697b118554F8cEA4A5b09743a70b.pdf">Audit</a></li>
           </ul>
           <div class="wallet">
             <img src="../assets/bsc.jpg" >
@@ -100,25 +100,7 @@ export default {
       toLink(i){
           localStorage.setItem('active',i)
           this.active = i
-          if(i==0){
-              this.$router.push('/')
-          }else if(i==1){
-              this.$router.push('/')
-              this.$emit('toToken')
-          }else if(i==2){
-              this.$router.push('/')
-              this.$emit('toRoadmap')
-          }else if(i==3){
-              this.$router.push('/')
-              this.$emit('toCommunity')
-          }else if(i==4){
-              this.$router.push('/MysteryBoxes')
-          }else if(i==6){
-              // this.$router.push('/Coming')
-              this.$router.push('/placeShowall')
-          }else if(i==7){
-              this.$router.push('/myCollection')
-          }
+          this.$emit('toMenu',i)
           this.drawer = false
       },
     handleSetLanguage() {
@@ -176,7 +158,7 @@ export default {
     display:flex;
     justify-content:space-between;
     opacity:1;
-    width:1250px;
+    width:1400px;
     margin:0 auto;
     z-index:9;
     align-items: center;
@@ -311,7 +293,6 @@ export default {
         }
         .logo{
             width:200px;
-            margin-top:6px;
         }
         .menus{
             display:none;
