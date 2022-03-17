@@ -442,7 +442,6 @@
       }
       .img-desc {
           text-align: left;
-          width:100%;
           box-sizing: border-box;
           .comsoon{
               display:none;
@@ -1256,6 +1255,7 @@
               }
               .img-desc{
                   padding:15px;
+                  width:100%;
                   .sale{
                       display:none;
                   }
@@ -1352,7 +1352,7 @@
                         margin:0;
                     }
                     .wrap{
-                        width:71%;
+                        width:68%;
                         .zuckTitle{
                             font-size:35px;
                         }
