@@ -1313,7 +1313,7 @@
                   .mint-btn{
                       height:53px;
                       border:2px solid;
-                      font-size:30px;
+                      font-size:26px;
                       line-height:53px;
                   }
               }
@@ -1356,10 +1356,10 @@
                     .wrap{
                         width:68%;
                         .zuckTitle{
-                            font-size:35px;
+                            font-size:30px;
                         }
                         .zuckTokenInfo{
-                            font-size:16px;
+                            font-size:13px;
                             line-height:20px;
                         }
                     }
@@ -1370,11 +1370,12 @@
                             width:33%;
                             .disInfo{
                                 width:100%;
+                                font-size:14px;
                             }
                         }
                     }
                     .support{
-                        font-size:19px;
+                        font-size:16px;
                         padding-left:15px;
                         padding-bottom:30px;
                     }
@@ -1406,10 +1407,10 @@
                         position:relative;
                         top:-16px;
                         .zuckTitle{
-                            font-size:26px;
+                            font-size:22px;
                         }
                         .zuckTokenInfo{
-                            font-size:16px;
+                            font-size:14px;
                             line-height:20px;
                         }
                     }
