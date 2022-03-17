@@ -354,7 +354,7 @@
 <style lang="less" scoped>
  @font-face { // 正常
     font-family: STSongti-TC-Regular; 
-    src:url('../assets/AnyConv.com__STSongti-TC-Regular.otf');
+    src:url('../assets/STSongti-TC-Regular.otf');
 }
 .homeContainer{
     font-family: STSongti-TC-Regular, STSongti-TC;
@@ -1217,13 +1217,14 @@
                 display:block;
                 position:absolute;
                 top:64%;
-                padding:0 40px;
+                padding:0 30px;
                 text-align:center;
-                font-size: 32px;
+                font-size: 25px;
                 font-weight: bold;
                 color: #FCDAFF;
                 line-height: 36px;
                 text-shadow: 0px 0px 4px #171A55;
+                text-transform: uppercase;
             }
           .contactType{
               justify-content: center;
@@ -1281,7 +1282,8 @@
                       .desc{
                           font-size:13px;
                           .zuck{
-                              font-size:23px;
+                              font-size:22px;
+                              letter-spacing: 0px;
                           }
                       }
                   }
@@ -1401,7 +1403,6 @@
                 }
                 &:nth-of-type(6){
                     .wrap{
-                        width:71%;
                         position:relative;
                         top:-16px;
                         .zuckTitle{
