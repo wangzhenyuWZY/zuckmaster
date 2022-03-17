@@ -14,10 +14,10 @@
             <a class="menu" target="_blank" href="https://zuckmetaverse.gitbook.io/zuck/"><span>WhitePaper</span></a>
             <a class="menu" target="_blank" href="https://github.com/AuditRateTech/Smart-Contract-Audits/blob/main/ZuckMeta_0x81B242276afA697b118554F8cEA4A5b09743a70b.pdf"><span>Audit</span></a>
         </div>
-        <!-- <div class="wallet">
+        <div class="wallet">
           <img src="../assets/bsc.jpg" >
           {{defaultAddress}}
-        </div> -->
+        </div>
     </div>
     <div class="mobHeader">
       <div class="nav_merge">
@@ -171,7 +171,10 @@ export default {
     .wallet{
       font-size:12px;
       color:#fff;
-      line-height:88px;
+      line-height:78px;
+      display: flex;
+    justify-content: center;
+    align-items: center;
       img{
         width:30px;
         height:30px;

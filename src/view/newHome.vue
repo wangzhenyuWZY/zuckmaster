@@ -63,8 +63,8 @@
             <div class="total">
                 <span>（{{number?number:0}}/MAX）</span><span>Total:<span class="total-price">{{totalPrice}} ZUCK</span></span>
             </div>
-            <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve ZUCK'}}</el-button>
-            <!-- <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">Mint Now</el-button> -->
+            <!-- <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve ZUCK'}}</el-button> -->
+            <el-button class="mint-btn" @click="comsoon" :loading="isDoing" :disabled="isDoing">Mint Now</el-button>
         </div>
       </div>
       <div class="titleBox mobHide">
@@ -442,7 +442,8 @@
       }
       .img-desc {
           text-align: left;
-          width:595px;
+          width:100%;
+          box-sizing: border-box;
           .comsoon{
               display:none;
           }
@@ -1216,7 +1217,7 @@
             .bannerInfo{
                 display:block;
                 position:absolute;
-                top:422px;
+                top:64%;
                 padding:0 40px;
                 text-align:center;
                 font-size: 32px;
@@ -1337,7 +1338,7 @@
                         left:0;
                     }
                     .wrap{
-                        width:80%;
+                        width:78%;
                         margin-left:6px;
                     }
                 }
@@ -1364,8 +1365,9 @@
                         padding-top:15px;
                         padding-bottom:50px;
                         .disItem{
+                            width:33%;
                             .disInfo{
-                                width:120px;
+                                width:100%;
                             }
                         }
                     }
@@ -1412,8 +1414,8 @@
                     }
                     .proofBtn{
                         position:relative;
-                        top:-40px;
-                        left:-24px;
+                        top:-25px;
+                        left:-14px;
                     }
                 }
             }
@@ -1520,7 +1522,7 @@
                         order:3;
                     }
                     .ecosyItem{
-                        width:360px;  
+                        width:100%;  
                         min-height:115px;
                         height:auto;
                         border: 2px solid;
@@ -1629,12 +1631,14 @@
                                 top:482px;
                             }
                             &:nth-child(1),&:nth-child(3),&:nth-child(5),&:nth-child(7){
+                                right:46%;
                                 .mapInfo{
                                     background:url(../assets/home_mapLeftM.png) no-repeat center;
                                     background-size:100% 100%;
                                 }
                             }
                             &:nth-child(2),&:nth-child(4),&:nth-child(6){
+                                left:46%;
                                 .mapInfo{
                                     background:url(../assets/home_mapRightM.png) no-repeat center;
                                     background-size:100% 100%;
@@ -1666,7 +1670,7 @@
                     border-bottom:1px solid #7360CD;
                     justify-content: start;
                     .partnerImg{
-                        width:116px;
+                        width:108px;
                         height:40px;
                         margin:0 3px 16px;
                     }
@@ -1739,6 +1743,9 @@
             }
         },
         methods: {
+            comsoon(){
+                this.$message.success('Coming Soon')
+            },
             toMenu(i){
                 if (i===0){
                     document.querySelector('#Home').scrollIntoView(true)
