@@ -1007,7 +1007,7 @@
                 height:175px;
                 background: rgba(216, 216, 216, 0);
                 position:relative;
-                padding-left:170px;
+                padding-left:180px;
                 box-sizing: border-box;
                 .ecoTitle{
                     p{
