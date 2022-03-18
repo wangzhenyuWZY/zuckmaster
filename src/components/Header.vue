@@ -25,6 +25,10 @@
         </div>
         <el-drawer title="我是标题" v-model="drawer" :show-close="false" custom-class="drawer_body" :with-header="false" @click="tolerPop=false">  
           <i class="closeico" @click="drawer = false"></i>
+          <div class="wallet">
+            <img src="../assets/bsc.jpg" >
+            {{defaultAddress}}
+          </div>
           <ul class="drawer_nav">
             <li @click="toLink(0)"><a class="menu">Home</a></li>
             <li @click="toLink(1)"><a class="menu">Mint</a></li>
@@ -35,10 +39,7 @@
             <li><a class="menu" target="_blank" href="https://zuckmetaverse.gitbook.io/zuck/">WhitePaper</a></li>
             <li><a class="menu" target="_blank" href="https://github.com/AuditRateTech/Smart-Contract-Audits/blob/main/ZuckMeta_0x81B242276afA697b118554F8cEA4A5b09743a70b.pdf">Audit</a></li>
           </ul>
-          <div class="wallet">
-            <img src="../assets/bsc.jpg" >
-            {{defaultAddress}}
-          </div>
+          
         </el-drawer>
     </div>    
   </div>
@@ -259,13 +260,11 @@ export default {
     display:flex;
     justify-content: flex-end;
     .wallet{
-      font-size:14px;
+      font-size:16px;
       color:#fff;
       line-height:88px;
-      position:absolute;
-      bottom:0;
       width:100%;
-      text-align:center;
+      padding-left: 33px;
       img{
         width:30px;
         height:30px;
@@ -353,8 +352,6 @@ export default {
 .drawer_nav {
   // font-size: 0.5rem;
   font-size: 16px;
-  margin-top: 15px;
-  padding-top:64px;
   li {
     line-height: 52px;
     a{
