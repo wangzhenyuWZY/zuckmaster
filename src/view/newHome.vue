@@ -338,10 +338,10 @@
                 <div class="partnerImg"><img src="../assets/home_partner8.png"></div>
             </div>
             <div class="footerBox">
-                <div class="logo"><img src="../assets/logo.png"></div>
+                <div class="logo"><img src="../assets/logo2.png"></div>
                 <div class="copyright">
                     <img src="../assets/home_foot1.png">
-                    <img src="../assets/home_foot2.png">
+                    <p>info@zuckmeta.io</p>
                 </div>
                 <div class="footLink">
                     <a target="_blank" href="https://twitter.com/ZuckMeta"><img src="../assets/home_link1.png"></a>
@@ -832,7 +832,7 @@
                           }
                       }
                       .disInfo{
-                          font-size:18px;
+                          font-size:16px;
                           width:125px;
                           text-align:center;
                           padding-top:10px;
@@ -1211,10 +1211,20 @@
           justify-content: space-between;
           align-items: center;
           padding:36px 0 60px;
+          .logo{
+              width:160px;
+              img{
+                  width:100%;
+              }
+          }
           .copyright{
               img{
                   display:block;
                   margin:0 auto;
+              }
+              p{
+                  color:#fff;
+                  text-align:center;
               }
           }
           .footLink{
@@ -1757,12 +1767,12 @@
                     }
                 }
                 .footerBox{
-                    padding-top:34px;
+                    padding-top:16px;
                     padding-bottom:0;
                     flex-wrap: wrap;
-                    align-items: flex-start;
+                    align-items: center;
                     .logo{
-                        width:110px;
+                        width:80px;
                         order:1;
                         padding-left:15px;
                         img{
@@ -1771,7 +1781,6 @@
                     }
                     .footLink{
                         order:2;
-                        padding-bottom:25px;
                         img{
                             width:38px;
                         }
@@ -1781,6 +1790,7 @@
                         width: 100%;
                         padding:8px 0 12px;
                         background:#000;
+                        margin-top:15px;
                     }
                 }
             }

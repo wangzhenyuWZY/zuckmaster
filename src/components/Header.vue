@@ -170,7 +170,7 @@ export default {
         width:250px;
     }
     .wallet{
-      font-size:12px;
+      font-size:16px;
       color:#fff;
       line-height:78px;
       display: flex;
@@ -180,6 +180,7 @@ export default {
         width:30px;
         height:30px;
         border-radius:50%;
+        margin-right:4px;
       }
     }
     .menus{
