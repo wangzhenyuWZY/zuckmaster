@@ -218,7 +218,7 @@
                     <p class="ecoText">ZUCK's soon-to-launch NFT  will let you trade NFTs  with crypto.<br>NFT holders have a lot of ZUCK ecological rights.</p>
                 </div>
             </div>
-            <p class="panelTitle">THE ZUCK ECOSYSTEM</p>
+            <p class="panelTitle"><span>THE ZUCK ECOSYSTEM</span></p>
             <div class="ecosyList">
                 <div class="ecosyItem">
                     <div class="ecoTitle"><p>ZUCK SWAP</p> </div>
@@ -242,24 +242,27 @@
             </div>
             <div class="teamList">
                 <div class="teamItem">
-                    <img src="../assets/home_team1.png">
+                    <img class="teamImgP" src="../assets/home_team1.png">
+                    <img class="teamImgM" src="../assets/home_team1m.png">
                     <div class="wrap">
                         <p class="name">Amos </p>
-                        <p class="job">concept artist, illustration, scripts</p>
+                        <p class="job">Tech company software engineer, DAO lover, crypto currency investor and NFT enthusiast.</p>
                     </div>
                 </div>
                 <div class="teamItem">
-                    <img src="../assets/home_team2.png">
+                    <img class="teamImgP" src="../assets/home_team2.png">
+                    <img class="teamImgM" src="../assets/home_team2m.png">
                     <div class="wrap">
                         <p class="name">Mark Elliot</p>
-                        <p class="job">marketing, community, outreach</p>
+                        <p class="job">Tech company software engineer，metaverse social explorer,VR game developer</p>
                     </div>
                 </div>
                 <div class="teamItem">
-                    <img src="../assets/home_team3.png">
+                    <img class="teamImgP" src="../assets/home_team3.png">
+                    <img class="teamImgM" src="../assets/home_team3m.png">
                     <div class="wrap">
                         <p class="name">Esteban Ordano</p>
-                        <p class="job">goat enthusiast, community, support</p>
+                        <p class="job">A DAO fan with an entreprenurer mindset, metaverse social Explore and technology.</p>
                     </div>
                 </div>
             </div>
@@ -358,6 +361,14 @@
 }
 .homeContainer{
     font-family: STSongti-TC-Regular, STSongti-TC;
+  .headerContainer{
+      background: rgba(0,0,0,0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+  }  
   .basiCon{
     width:1250px;
     margin:0 auto;
@@ -573,8 +584,9 @@
           .mint-btn {
               height: 60px;
               background: rgba(0, 0, 0, 0.24);
-              border: 3px solid;
-              border-image: linear-gradient(90deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 3 3;
+              background: linear-gradient(90deg, #EF2AFE 0%, #6E33FD 100%);
+              border-radius:7px;
+              border:none;
               font-size: 42px;
               font-family: STSongti-TC-Regular, STSongti-TC;
               font-weight: 400;
@@ -936,38 +948,71 @@
       background-size:cover;
       min-height:640px;
       .ecosyCon{
+          width:1450px;
           .panelTitle{
-            font-size: 50px;
-            font-weight: bold;
-            color: #FCDAFF;
-            line-height: 55px;
+              span{
+                  background: linear-gradient(90deg, #EF2AFE 0%, #6E33FD 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-size: 36px;
+                font-weight: bold;
+                color: #FCDAFF;
+                line-height: 82px;
+              }
+            width:610px;
+            height:82px;
+            border-radius: 8px;
+            margin:56px auto;
+            background:#fff;
             text-align:center;
-            padding:58px 0 72px;
           }
           .ecosyList{
               display:flex;
               justify-content: space-between;
+              &:nth-of-type(1){
+                  .ecosyItem{
+                        &:nth-child(1){
+                            background:url(../assets/home_ecoBg1.png) no-repeat center;
+                            background-size:100% 100%;
+                        }
+                        &:nth-child(2){
+                            background:url(../assets/home_ecoBg2.png) no-repeat center;
+                            background-size:100% 100%;
+                        }
+                        &:nth-child(3){
+                            background:url(../assets/home_ecoBg3.png) no-repeat center;
+                            background-size:100% 100%;
+                        }
+                  }
+              }
+              &:nth-of-type(2){
+                  .ecosyItem{
+                        &:nth-child(1){
+                            background:url(../assets/home_ecoBg4.png) no-repeat center;
+                            background-size:100% 100%;
+                        }
+                        &:nth-child(2){
+                            background:url(../assets/home_ecoBg5.png) no-repeat center;
+                            background-size:100% 100%;
+                        }
+                        &:nth-child(3){
+                            background:url(../assets/home_ecoBg6.png) no-repeat center;
+                            background-size:100% 100%;
+                        }
+                  }
+                  
+              }
               .ecosyItem{
-                width:360px;  
+                width:444px;  
                 height:175px;
                 background: rgba(216, 216, 216, 0);
-                border: 4px solid;
-                border-image: linear-gradient(135deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 4 4;
                 position:relative;
+                padding-left:170px;
+                box-sizing: border-box;
                 .ecoTitle{
-                    position:absolute;
-                    top:-34px;
-                    left:22px;
-                    z-index:9;
-                    width: 199px;
-                    height: 62px;
-                    background: #000000;
-                    border: 4px solid;
-                    border-image: linear-gradient(135deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 4 4;
-                    box-sizing: border-box;
                     p{
-                        text-align:center;
-                        line-height:62px;
+                        padding-top:34px;
+                        line-height:36px;
                         font-size:26px;
                         font-weight: bold;
                         color: #FCDAFF;
@@ -978,12 +1023,11 @@
                     
                 }
                 .ecoText{
-                    font-size: 22px;
+                    font-size: 14px;
                     font-weight: bold;
-                    color: #FCDAFF;
-                    line-height: 28px;
-                    padding-top:36px;
-                    padding-left:22px;
+                    color: #474747;
+                    line-height: 22px;
+                    padding-top:10px;
                 }
               }
           }
@@ -1000,15 +1044,19 @@
               display:flex;
               justify-content: space-between;
               .teamItem{
-                  width: 315px;
-                    height: 391px;
-                    border: 4px solid;
-                    border-image: linear-gradient(135deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 4 4;
+                    width:308px;
                     padding:20px;
                     box-sizing: border-box;
+                    background:#000;
                     img{
                         width:267px;
                         height:267px;
+                        &.teamImgP{
+                            display:block;
+                        }
+                        &.teamImgM{
+                            display:none;
+                        }
                     }
                     .name{
                         font-size: 32px;
@@ -1019,10 +1067,10 @@
                         text-align:center;
                     }
                     .job{
-                        font-size: 16px;
+                        font-size: 15px;
                         font-weight: 300;
                         color: #B79AFF;
-                        line-height: 25px;
+                        line-height: 20px;
                         text-align:center;
                     }
               }
@@ -1216,7 +1264,7 @@
             .bannerInfo{
                 display:block;
                 position:absolute;
-                top:64%;
+                top:66%;
                 padding:0 30px;
                 text-align:center;
                 font-size: 25px;
@@ -1312,7 +1360,6 @@
                   }
                   .mint-btn{
                       height:53px;
-                      border:2px solid;
                       font-size:26px;
                       line-height:53px;
                   }
@@ -1499,19 +1546,24 @@
       .ecosyPanel{
           background:url(../assets/home_bg7m.png) no-repeat center;
             background-size:cover;
-            min-height:1312px;
             .ecosyCon{
                 display:flex;
                 flex-wrap: wrap;
                 width:auto;
                 padding:0 15px;
                 .panelTitle{
-                    font-size: 28px;
-                    line-height: 55px;
-                    padding:0px 0 68px;
+                    span{
+                        font-size: 26px;
+                        line-height: 55px;
+                    }
+                    padding:0px;
                     order:1;
+                    height:auto;
                     text-align:center;
+                    background:none;
                     width:100%;
+                    margin-bottom:20px;
+                    margin-top:0;
                 }
                 .ecosyList{
                     display:flex;
@@ -1519,37 +1571,57 @@
                     margin-top:0;
                     &:nth-of-type(1){
                         order:2;
+                        .ecosyItem{
+                            &:nth-child(1){
+                                background:url(../assets/home_ecoBg1m.png) no-repeat center;
+                                background-size:100% 100%;
+                            }
+                            &:nth-child(2){
+                                background:url(../assets/home_ecoBg2m.png) no-repeat center;
+                                background-size:100% 100%;
+                            }
+                            &:nth-child(3){
+                                background:url(../assets/home_ecoBg3m.png) no-repeat center;
+                                background-size:100% 100%;
+                            }
+                        }
                     }
                     &:nth-of-type(2){
                         order:3;
+                        .ecosyItem{
+                            &:nth-child(1){
+                                background:url(../assets/home_ecoBg4m.png) no-repeat center;
+                                background-size:100% 100%;
+                            }
+                            &:nth-child(2){
+                                background:url(../assets/home_ecoBg5m.png) no-repeat center;
+                                background-size:100% 100%;
+                            }
+                            &:nth-child(3){
+                                background:url(../assets/home_ecoBg6m.png) no-repeat center;
+                                background-size:100% 100%;
+                            }
+                        }
                     }
                     .ecosyItem{
                         width:100%;  
                         min-height:115px;
                         height:auto;
-                        border: 2px solid;
-                        border-image: linear-gradient(135deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 4 4;
-                        margin-bottom:66px;
+                        margin-bottom:50px;
+                        padding-left:120px;
                         .ecoTitle{
-                            position:absolute;
-                            top:-23px;
-                            left:22px;
-                            z-index:9;
-                            width: 199px;
-                            height: 46px;
-                            border: 2px solid;
-                            border-image: linear-gradient(135deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 4 4;
                             p{
-                                line-height:42px;
+                                line-height:100%;
                                 font-size:22px;
+                                padding-top:20px;
                             }
                             
                         }
                         .ecoText{
-                            font-size: 18px;
-                            line-height: 28px;
-                            padding-top:36px;
-                            padding-left:22px;
+                            font-size: 12px;
+                            line-height: 18px;
+                            padding-top:6px;
+                            padding-right:15px;
                         }
                     }
                 }
@@ -1568,25 +1640,32 @@
                     .teamItem{
                         width: 100%;
                             height: auto;
-                            border: 2px solid;
-                            border-image: linear-gradient(135deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 4 4;
                             padding:10px;
                             display:flex;
                             justify-content: center;
+                            margin-bottom:20px;
                             img{
                                 width:100px;
                                 height:100px;
+                                &.teamImgP{
+                                    display:none;
+                                }
+                                &.teamImgM{
+                                    display:block;
+                                }
                             }
                             .wrap{
                                 width:80%;
                                 padding-left:15px;
                             }
                             .name{
-                                font-size: 26px;
+                                font-size: 22px;
                                 text-align:left;
+                                padding-top:0;
+                                line-height:30px;
                             }
                             .job{
-                                font-size: 16px;
+                                font-size: 13px;
                                 text-align:left;
                             }
                     }

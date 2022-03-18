@@ -144,10 +144,10 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-// @font-face { // 正常
-//     font-family: DFPBuDingW12; 
-//     src:url('../assets/DFPBuDingW12.ttf');
-// }
+ @font-face { // 正常
+    font-family: STSongti-TC-Regular; 
+    src:url('../assets/STSongti-TC-Regular.otf');
+}
 .headerContainer{
   width:100%;
   background:#000;
@@ -284,7 +284,6 @@ export default {
       width:100%;
         height:54px;
         padding:0 15px;
-        background:#000000;
         box-sizing:border-box;
         .wallet{
           display:none;
@@ -358,13 +357,13 @@ export default {
   padding-top:64px;
   li {
     line-height: 52px;
-    border-bottom:1px solid #363636;
     a{
         display:block;
-        color:#fff;
+        color:#DC2BFE;
         text-align:left;
         padding-left:33px;
-        font-family: TimesNewRomanPS-BoldMT, TimesNewRomanPS;
+        font-family: STSongti-TC-Regular;
+        font-size:20px;
         &.active{
             color:#ADADAD;
         }
