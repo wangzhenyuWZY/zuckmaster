@@ -38,7 +38,7 @@
             <p class="comsoon">COMING SOON</p>
             <div class="mint">
                 Enter how many MAXs you would like to mint here
-                <br>MAX minted: {{mintNum}} / 1,000
+                <br>MAX minted: {{mintNum}} / 10,000
             </div>
             <div class="price">
                 <div class="swiper-box-min">
@@ -179,15 +179,15 @@
                     <br>4. Get dividends from ZUCK Mammon</p>
             </div>
             <div class="maxImgList">
-                <div class="maxImgItem"><img src="../assets/home_max1.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_max2.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_max3.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_max4.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_max5.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_max6.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_max7.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_max8.png"></div>
-                <div class="maxImgItem"><img src="../assets/home_max9.png"></div>
+                <div class="maxImgItem"><img src="../assets/home_max1.gif"></div>
+                <div class="maxImgItem"><img src="../assets/home_max2.gif"></div>
+                <div class="maxImgItem"><img src="../assets/home_max3.gif"></div>
+                <div class="maxImgItem"><img src="../assets/home_max4.gif"></div>
+                <div class="maxImgItem"><img src="../assets/home_max5.gif"></div>
+                <div class="maxImgItem"><img src="../assets/home_max6.gif"></div>
+                <div class="maxImgItem"><img src="../assets/home_max7.gif"></div>
+                <div class="maxImgItem"><img src="../assets/home_max8.gif"></div>
+                <div class="maxImgItem"><img src="../assets/home_max9.gif"></div>
             </div>
         </div>
     </div>
@@ -1582,7 +1582,7 @@
                                 padding-left:15px;
                             }
                             .name{
-                                font-size: 30px;
+                                font-size: 26px;
                                 text-align:left;
                             }
                             .job{
@@ -1672,9 +1672,9 @@
                     border-bottom:1px solid #7360CD;
                     justify-content: start;
                     .partnerImg{
-                        width:108px;
+                        width:31.2%;
                         height:40px;
-                        margin:0 3px 16px;
+                        margin:0 1% 16px;
                     }
                 }
                 .footerBox{
