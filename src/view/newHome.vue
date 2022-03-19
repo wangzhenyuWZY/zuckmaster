@@ -156,7 +156,34 @@
             <div class="titleBox">
                 <h2>WHY zuck ?</h2>
             </div>
-            <div class="whyImg"><img src="../assets/home_whyzuck.png"></div>
+            <div class="whyImg">
+                <img src="../assets/home_whyzuck.png">
+                <div class="whyInfo">
+                    <div class="whyInfoList">
+                        <div class="whyInfoItem">
+                            <span>100% Safe Project</span>
+                        </div>
+                        <div class="whyInfoItem">
+                            <span>Zuckerberg's Big IP</span>
+                        </div>
+                        <div class="whyInfoItem">
+                            <span>Community Rewards</span>
+                        </div>
+                        <div class="whyInfoItem">
+                            <span>Long Term Value</span>
+                        </div>
+                        <div class="whyInfoItem">
+                            <span>Low Market Cap</span>
+                        </div>
+                        <div class="whyInfoItem">
+                            <span>Community Driven</span>
+                        </div>
+                    </div>
+                    <div class="whyInfoImg">
+                        <img src="../assets/home_whyImg.png">
+                    </div>
+                </div>
+            </div>
             <p class="whyZuck">
                 In the world of Crypto, meme coins are the best way to catch the attention of the mainstream. We felt the best way to brand our project to gain the most amount of eyes and in doing so, help the most amount of metaverse user was to make it something similar to #DOGE & #SHIB which caught huge mainstream attention. What better fit than Zuckerberg, the founder of META –explorers of the metaverse and of course he is also deeply involved in the ZUCKcommunity. This way, we have the attention of the meme coin investors as well as the ZUCK community to create one giant combined positive community involving ZUCK, meme coins & the legend that is Zuckerberg.ZuckMeta is the first Zuckerberg's meme,and it is an open-world metaverse.Zuckerberg's favorite crypto pet is a goat named Max，we have created 10000  Max that exist in NFT form.
             </p>
@@ -881,6 +908,9 @@
             line-height: 31px;
             margin-top:40%;
           }
+          .whyInfo{
+              display:none;
+          }
       }
   }
   .maxNftPanel{
@@ -1485,14 +1515,16 @@
             background-size:cover;
             height:auto;
             .whyZuckCon{
-                padding:0 15px 60px;
+                padding:0 0 60px;
                 width:auto;
                 .whyImg{
                     display:block;
                     width:100%;
                     text-align:center;
+                    overflow: hidden;
                     img{
                         max-width:100%;
+                        display:none;
                     }
                 }
                 .whyZuck{
@@ -1500,6 +1532,37 @@
                     font-weight:100;
                     font-size:18px;
                     line-height:23px;
+                    padding:0 15px;
+                }
+                .whyInfo{
+                    display:flex;
+                    justify-content: end;
+                    .whyInfoList{
+                        margin-top:20px;
+                        margin-right:-4px;
+                        .whyInfoItem{
+                            width: 160px;
+                            height: 40px;
+                            background: rgba(0, 0, 0, 0.74);
+                            border: 1px solid;
+                            border-image: linear-gradient(110deg, rgba(239, 42, 254, 1), rgba(110, 51, 253, 1)) 1 1;
+                            text-align:center;
+                            margin-bottom:10px;
+                            span{
+                                font-size: 15px;
+                                font-weight: bold;
+                                color: #FCDAFF;
+                                line-height: 40px;
+                            }
+                        }
+                    }
+                    .whyInfoImg{
+                        margin-right:-27px;
+                        img{
+                            display:block;
+                            width:200px;
+                        }
+                    }
                 }
             }
       }
