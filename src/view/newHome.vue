@@ -133,7 +133,7 @@
                     <div class="tokenImg"><img src="../assets/home_tokenImg3.png"></div>
                     <div class="wrap">
                         <h2 class="zuckTitle">ZUCK DAO</h2>
-                        <p class="zuckTokenInfo">15% of the $ZUCK tokens have been allocated to theZUCKDAO to:</p>
+                        <p class="zuckTokenInfo">15% of the $ZUCK tokens have been allocated to the ZUCKDAO to:</p>
                     </div>
                     <p class="support">Support DAO communities
                         <br>Support NFT communities
@@ -257,7 +257,7 @@
                 </div>
                 <div class="ecosyItem">
                     <div class="ecoTitle"><p>ZUCK SOCIAl</p> </div>
-                    <p class="ecoText">Building a SocialFi Metaverse The First Social Trading Network on Web3.</p>
+                    <p class="ecoText">Building a SocialFi Metaverse.<br> The First Social Trading Network on Web3.</p>
                 </div>
             </div>
         </div>

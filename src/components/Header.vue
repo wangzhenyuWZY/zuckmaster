@@ -8,7 +8,7 @@
             <a class="menu" :class="active==0?'active':''" @click="toLink(0)"><span>Home</span></a>
             <a class="menu" :class="active==1?'active':''" @click="toLink(1)"><span>Mint</span></a>
             <a class="menu" :class="active==2?'active':''" @click="toLink(2)"><span>Tokenomics</span></a>
-            <a class="menu" :class="active==3?'active':''" @click="toLink(3)"><span>NTF</span></a>
+            <a class="menu" :class="active==3?'active':''" @click="toLink(3)"><span>NFT</span></a>
             <a class="menu" :class="active==4?'active':''" @click="toLink(4)"><span>Metaverse</span></a>
             <a class="menu" :class="active==5?'active':''" @click="toLink(5)"><span>RoadMap</span></a>
             <a class="menu" target="_blank" href="https://zuckmetaverse.gitbook.io/zuck/"><span>WhitePaper</span></a>
@@ -33,7 +33,7 @@
             <li @click="toLink(0)"><a class="menu">Home</a></li>
             <li @click="toLink(1)"><a class="menu">Mint</a></li>
             <li @click="toLink(2)"><a class="menu">Tokenomics</a></li>
-            <li @click="toLink(3)"><a class="menu">NTF</a></li>
+            <li @click="toLink(3)"><a class="menu">NFT</a></li>
             <li @click="toLink(4)"><a class="menu">Metaverse</a></li>
             <li @click="toLink(5)"><a class="menu">RoadMap</a></li>
             <li><a class="menu" target="_blank" href="https://zuckmetaverse.gitbook.io/zuck/">WhitePaper</a></li>
