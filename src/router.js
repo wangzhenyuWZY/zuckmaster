@@ -9,6 +9,11 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: () => import('./view/newHome.vue')
+        },
+        {
+            path: '/max',
+            name: 'max',
+            component: () => import('./view/maxNft.vue')
         }
     ]
 })

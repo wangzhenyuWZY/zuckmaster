@@ -1,15 +1,20 @@
 import { ethers } from 'ethers'
-// import('kaka721_abi.json')
 import { prodAddrs, testAddrs, abi } from '../contracts/abi'
 
-export function getEther () {
+export async function getEther (env = 'prod') {
     let provider
-    let signer
-    if (!window.ethereum) {
-        return
+    let myAddr
+    if (window.BinanceChain) {
+        provider = new ethers.providers.Web3Provider(window.BinanceChain)
+        await window.BinanceChain.enable()
+    } else if (window.ethereum) {
+        provider = new ethers.providers.Web3Provider(window.ethereum)
+        await window.ethereum.enable()
+        myAddr = window.ethereum.address
+    } else {
+        return null
     }
-    provider = new ethers.providers.Web3Provider(window.ethereum)
-    signer = provider.getSigner()
+    const signer = provider.getSigner()
     const rpcProvider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-1-s1.binance.org:8545/')
 
     let envAddrs = ''
@@ -22,28 +27,32 @@ export function getEther () {
         '97': {
             envAddrs: testAddrs,
             myGasPrice: ethers.utils.parseUnits('10.001', 9)
-        }
+        },
+        // '66': {
+        //     envAddrs: oktAddrs,
+        //     myGasPrice: ethers.utils.parseUnits('5.001', 9)
+        // },
+        // '65': {
+        //     envAddrs: oktTestAddrs,
+        //     myGasPrice: ethers.utils.parseUnits('10.001', 9)
+        // },
+        // '1': {
+        //     envAddrs: ethProdAddrs,
+        //     myGasPrice: null
+        // }
     }
     const chainId = +window.ethereum.chainId || '56'
     envAddrs = network[chainId].envAddrs
     myGasPrice = network[chainId].myGasPrice
-    // if (window.ethereum && (window.ethereum.chainId === '0x38' || window.ethereum.chainId === '0x61')) {
-    //     envAddrs = window.ethereum && window.ethereum.chainId === '0x61' ? testAddrs : prodAddrs
-    //     myGasPrice = window.ethereum && window.ethereum.chainId === '0x61' ? ethers.utils.parseUnits('10.001', 9) : ethers.utils.parseUnits('5.001', 9)
 
-    // // okt
-    // } else if (window.ethereum && (window.ethereum.chainId === '0x42' || window.ethereum.chainId === '0x41')) {
-    //     envAddrs = window.ethereum && window.ethereum.chainId === '0x41' ? oktTestAddrs : oktAddrs
-    //     myGasPrice = window.ethereum && window.ethereum.chainId === '0x41' ? ethers.utils.parseUnits('10.001', 9) : ethers.utils.parseUnits('5.001', 9)
-    // }
     const MyContracts = {
-        // Token
         zuckToken: new ethers.Contract(envAddrs.zuckToken, abi.zuckToken, signer),
-        zuckFactory: new ethers.Contract(envAddrs.zuckFactory, abi.zuckFactory, signer),
         zuckNft: new ethers.Contract(envAddrs.zuckNft, abi.zuckNft, signer)
     }
+    if (!myAddr) myAddr = await signer.getAddress()
 
     return {
+        myAddr,
         ...ethers,
         provider,
         signer,
@@ -55,13 +64,7 @@ export function getEther () {
 
 const MyEthers = {}
 MyEthers.install = function (app, options) {
-    Object.defineProperties(app.config.globalProperties, {
-        $eth: {
-            get () {
-                return getEther()
-            }
-        }
-    })
+    app.config.globalProperties.getEther = getEther()
 }
 
 export default MyEthers

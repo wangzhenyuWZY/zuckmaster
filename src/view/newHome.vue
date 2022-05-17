@@ -1,6 +1,6 @@
 <template>
   <div class="homeContainer">
-     <Header @toMenu="toMenu"/> 
+    <Header @toId="toId" :active="navActive"/> 
     <div class="banner" id="Home">
       <img src="../assets/home_banner.png" class="banner_p">
       <img src="../assets/home_bannerM.png" class="banner_m">
@@ -38,7 +38,7 @@
             <p class="comsoon">COMING SOON</p>
             <div class="mint">
                 Enter how many MAXs you would like to mint here
-                <br>MAX minted: {{mintNum}} / 10,000
+                <br>MAX minted: {{mintNum}} / 9,900
             </div>
             <div class="price">
                 <div class="swiper-box-min">
@@ -64,7 +64,7 @@
                 <span>（{{number?number:0}}/MAX）</span><span>Total:<span class="total-price">{{totalPrice}} ZUCK</span></span>
             </div>
             <!-- <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve ZUCK'}}</el-button> -->
-            <el-button class="mint-btn" @click="comsoon" :loading="isDoing" :disabled="isDoing">Mint Now</el-button>
+            <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">Mint Now</el-button>
         </div>
       </div>
       <div class="titleBox mobHide">
@@ -364,19 +364,7 @@
                 <div class="partnerImg"><img src="../assets/home_partner7.png"></div>
                 <div class="partnerImg"><img src="../assets/home_partner8.png"></div>
             </div>
-            <div class="footerBox">
-                <div class="logo"><img src="../assets/logo2.png"></div>
-                <div class="copyright">
-                    <img src="../assets/home_foot1.png">
-                    <p>info@zuckmeta.io</p>
-                </div>
-                <div class="footLink">
-                    <a target="_blank" href="https://twitter.com/ZuckMeta"><img src="../assets/home_link1.png"></a>
-                    <a target="_blank" href="https://t.me/ZUCKMETAWORLD"><img src="../assets/home_link2.png"></a>
-                    <a target="_blank" href="https://www.facebook.com/profile.php?id=100075505755366"><img src="../assets/home_link3.png"></a>
-                    <a target="_blank" href="https://zuckmetaverse.gitbook.io/zuck/"><img src="../assets/home_link4.png"></a>
-                </div>
-            </div>
+            <Footer></Footer>
         </div>
     </div>
   </div>
@@ -1226,7 +1214,6 @@
           padding-top:32px;
           padding-bottom:7px;
           border-top:2px solid #7360CD;
-          border-bottom:2px solid #7360CD;
           .partnerImg{
               width:221px;
               height:73px;
@@ -1867,8 +1854,9 @@
     import Swiper from "Swiper";
     import 'swiper/css/swiper.css'
     import { ElMessage } from 'element-plus'
+    import { getEther } from '../utils/ethers'
     export default {
-        name: 'MysteryBoxes',
+        name: 'Home',
         components: { Header, Footer },
         data() {
             return {
@@ -1882,7 +1870,9 @@
                 isDoing:false,
                 price:15000000,
                 totalPrice:0,
-                mintNum:0
+                mintNum:0,
+                eth:{},
+                navActive:0
             }
         },
         watch:{
@@ -1900,31 +1890,39 @@
             comsoon(){
                 this.$message.success('Coming Soon')
             },
-            toMenu(i){
-                if (i===0){
-                    document.querySelector('#Home').scrollIntoView(true)
-                } else if(i===1) {
-                    document.querySelector('#Mint').scrollIntoView(true)
-                } else if(i===2) {
-                    document.querySelector('#Tokenomics').scrollIntoView(true)
-                } else if(i===3) {
-                    document.querySelector('#NTF').scrollIntoView(true)
-                } else if(i===4) {
-                    document.querySelector('#Metaverse').scrollIntoView(true)
-                } else if(i===5) {
-                    document.querySelector('#RoadMap').scrollIntoView(true)
+            toId(i){
+                debugger
+                this.navActive = i
+                if(i == 0){
+                    let elm = document.getElementById('Home')
+                    elm.scrollIntoView(true)
+                }else if(i == 1){
+                    let elm = document.getElementById('Mint')
+                    elm.scrollIntoView(true)
+                }else if(i == 2){
+                    let elm = document.getElementById('Tokenomics')
+                    elm.scrollIntoView(true)
+                }else if(i == 3){
+                    let elm = document.getElementById('NTF')
+                    elm.scrollIntoView(true)
+                }else if(i == 4){
+                    let elm = document.getElementById('Metaverse')
+                    elm.scrollIntoView(true)
+                }else if(i == 5){
+                    let elm = document.getElementById('RoadMap')
+                    elm.scrollIntoView(true)
                 }
-                
             },
             async getInfos(){
-                let balance = await this.$eth.c.zuckToken.balanceOf(this.defaultAccount)
+                this.defaultAccount = this.eth.myAddr
+                let balance = await this.eth.c.zuckToken.balanceOf(this.defaultAccount)
                 this.zuckBalance = parseInt(balance) / Math.pow(10,9)
-                let isApproved = await this.$eth.c.zuckToken.allowance(this.defaultAccount, this.$eth.c.zuckFactory.address)
+                let isApproved = await this.eth.c.zuckToken.allowance(this.defaultAccount, this.eth.c.zuckNft.address)
                 if (parseInt(isApproved)) {
                     this.isApproved = true
                 }
-                let mints = await this.$eth.c.zuckFactory.getMintedTokenIds()
-                this.mintNum = mints.length
+                console.log(this.eth.c.zuckNft)
+                this.mintNum = await this.eth.c.zuckNft.totalSupply()
             },
             async checkMint(){
                 // ElMessage({
@@ -1937,7 +1935,7 @@
                     this.doMint()
                 }else{
                     try {
-                        let res = await this.$eth.c.zuckToken.approve(this.$eth.c.zuckFactory.address, '10000000000000000000000000000')
+                        let res = await this.eth.c.zuckToken.approve(this.eth.c.zuckNft.address, '10000000000000000000000000000')
                         await res.wait()
                         this.isApproved = true
                         this.isDoing = false
@@ -1948,7 +1946,11 @@
             },
             async doMint(){
                 try{
-                    let res = await this.$eth.c.zuckFactory.mint(this.number)
+                    let gasLimit = this.number * 300000
+                    let res = await this.eth.c.zuckNft.mint(this.number,{
+                        gasLimit: gasLimit,
+                        gasPrice: this.eth.gasPrice
+                    })
                     let waitres = await res.wait()
                     console.log(waitres)
                     ElMessage({
@@ -1956,6 +1958,7 @@
                         type: 'success',
                     })
                     this.isDoing = false
+                    this.getInfos()
                 }catch(e){
                     console.log(e)
                     this.isDoing = false
@@ -2008,10 +2011,11 @@
                 
             }
         },
-        async mounted () {
-            this.getList()
-            this.defaultAccount = await this.$eth.signer.getAddress()
-            this.getInfos()
+        async created () {
+            this.eth = await getEther();
+            if (this.eth) {
+                this.getInfos()
+            }
         }
     }
 </script>

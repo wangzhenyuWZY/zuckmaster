@@ -9,6 +9,7 @@
             <a class="menu" :class="active==1?'active':''" @click="toLink(1)"><span>Mint</span></a>
             <a class="menu" :class="active==2?'active':''" @click="toLink(2)"><span>Tokenomics</span></a>
             <a class="menu" :class="active==3?'active':''" @click="toLink(3)"><span>NFT</span></a>
+            <a class="menu" :class="active==6?'active':''" @click="toLink(6)"><span>My MAX</span></a>
             <a class="menu" :class="active==4?'active':''" @click="toLink(4)"><span>Metaverse</span></a>
             <a class="menu" :class="active==5?'active':''" @click="toLink(5)"><span>RoadMap</span></a>
             <a class="menu" target="_blank" href="https://zuckmetaverse.gitbook.io/zuck/"><span>WhitePaper</span></a>
@@ -34,6 +35,7 @@
             <li @click="toLink(1)"><a class="menu">Mint</a></li>
             <li @click="toLink(2)"><a class="menu">Tokenomics</a></li>
             <li @click="toLink(3)"><a class="menu">NFT</a></li>
+            <li @click="toLink(6)"><a class="menu">My MAX</a></li>
             <li @click="toLink(4)"><a class="menu">Metaverse</a></li>
             <li @click="toLink(5)"><a class="menu">RoadMap</a></li>
             <li><a class="menu" target="_blank" href="https://zuckmetaverse.gitbook.io/zuck/">WhitePaper</a></li>
@@ -45,9 +47,15 @@
   </div>
 </template>
 <script>
-import {plusXing} from '../utils/tronwebFn'
+import { getEther } from '../utils/ethers'
 export default {
   name: 'Header',
+  props: {
+      active: {
+          type: Number,String,
+          default: 0
+      }
+  },
   computed: {
     language() {
       return this.$i18n.locale
@@ -67,11 +75,10 @@ export default {
       drawer:false,
       lang:false,
       tolerPop:false,
-      active:localStorage.getItem('active'),
       defaultAddress:'',
       isLogin:false,
       contPop:false,
-      
+      eth:{}
     }
   },
   watch: {
@@ -89,20 +96,15 @@ export default {
         this.contPop = true
       }
     },
-    connectWallet(){
-      let that = this
-      this.contPop = false
-      this.$initTronWeb().then(function(tronWeb) {
-        let defaultAddress = window.tronWeb.defaultAddress.base58
-        that.defaultAddress = plusXing(defaultAddress,5,5)
-        that.isLogin = true
-      })
-    },
-      toLink(i){
+    toLink(i){
           localStorage.setItem('active',i)
-          this.active = i
-          this.$emit('toMenu',i)
           this.drawer = false
+          if(i!==6){
+              this.$router.push('/')
+              this.$emit('toId',i)
+          }else{
+              this.$router.push({name:'max'})
+          }
       },
     handleSetLanguage() {
       // 选择语言
@@ -125,23 +127,16 @@ export default {
       return str.substring(0,frontLen)+xing+str.substring(str.length-endLen);
     }
   },
-  created() {
-    let that = this
-    
-    // window.ethereum.enable().then(res=>{
-    //   debugger
-    //   provider = new ethers.providers.Web3Provider(window.ethereum)
-    //   signer = provider.getSigner()
-    //   const rpcProvider = new ethers.providers.JsonRpcProvider()
-    // })
-    this.$initWeb3().then((eth)=>{
-      eth.signer.getAddress().then((res)=>{
-        that.defaultAddress = that.plusXing(res,5,5)
-      })
-    })
-
-    
+  async created() {
+    this.eth = await getEther();
+    if (this.eth) {
+        this.defaultAddress = this.plusXing(this.eth.myAddr,5,5)
+    }
   },
+  mounted(){
+      let active = localStorage.getItem('active')
+      this.$emit('toId',active)
+  }
 }
 </script>
 <style lang="less" scoped>
