@@ -63,8 +63,8 @@
             <div class="total">
                 <span>（{{number?number:0}}/MAX）</span><span>Total:<span class="total-price">{{totalPrice}} ZUCK</span></span>
             </div>
-            <!-- <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve ZUCK'}}</el-button> -->
-            <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">Mint Now</el-button>
+            <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve ZUCK'}}</el-button>
+            <!-- <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">Mint Now</el-button> -->
         </div>
       </div>
       <div class="titleBox mobHide">
@@ -1872,7 +1872,8 @@
                 totalPrice:0,
                 mintNum:0,
                 eth:{},
-                navActive:0
+                navActive:0,
+                myNftBalance:0
             }
         },
         watch:{
@@ -1917,6 +1918,7 @@
                 this.defaultAccount = this.eth.myAddr
                 let balance = await this.eth.c.zuckToken.balanceOf(this.defaultAccount)
                 this.zuckBalance = parseInt(balance) / Math.pow(10,9)
+                this.myNftBalance = await this.eth.c.zuckNft.balanceOf(this.defaultAccount)
                 let isApproved = await this.eth.c.zuckToken.allowance(this.defaultAccount, this.eth.c.zuckNft.address)
                 if (parseInt(isApproved)) {
                     this.isApproved = true
@@ -1930,6 +1932,13 @@
                 //     type: 'success',
                 // })
                 // return
+                if (parseInt(this.myNftBalance) + parseInt(this.number) > 5) {
+                    ElMessage({
+                        message: 'Hold up to 5',
+                        type: 'error',
+                    })
+                    return
+                }
                 this.isDoing = true
                 if(this.isApproved){
                     this.doMint()
