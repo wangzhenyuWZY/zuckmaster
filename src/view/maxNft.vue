@@ -30,8 +30,8 @@
                 <div class="rule">
                     <p>★ Our collection is available and verified on the following NFT Marketplace!</p>
                     <p>★ Grab your ZUCK NFT MAX  today and become an exclusive member in our community.</p>
-                    <p>★ Hold ZUCK NFT MAX, earn long-term dividends of $ZUCK transaction fees, and can also be used as a symbol of the digital </p>
-                    <p>identity of ZUCKSwap shareholders to earn long-term Swap transaction fees dividends.</p>
+                    <p>★ Hold ZUCK NFT MAX, earn long-term dividends of $ZUCK transaction fees, and can also be used as a symbol of the digital identity of ZUCKSwap shareholders to earn long-term Swap transaction fees dividends.</p>
+                    <p></p>
                 </div>
                 <div class="contract">
                     <p>NFT Contract Address(ERC721):  <span>{{ nftAddr }}</span></p>

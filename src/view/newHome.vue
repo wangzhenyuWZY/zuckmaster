@@ -187,7 +187,7 @@
                 </div>
             </div>
             <p class="whyZuck">
-                In the world of Crypto, meme coins are the best way to catch the attention of the mainstream. We felt the best way to brand our project to gain the most amount of eyes and in doing so, help the most amount of metaverse user was to make it something similar to #DOGE & #SHIB which caught huge mainstream attention. What better fit than Zuckerberg, the founder of META –explorers of the metaverse and of course he is also deeply involved in the ZUCKcommunity. This way, we have the attention of the meme coin investors as well as the ZUCK community to create one giant combined positive community involving ZUCK, meme coins & the legend that is Zuckerberg.ZuckMeta is the first Zuckerberg's meme,and it is an open-world metaverse.Zuckerberg's favorite crypto pet is a goat named Max，we have created 10000  Max that exist in NFT form.
+                In the world of Crypto, meme coins are the best way to catch the attention of the mainstream. We felt the best way to brand our project to gain the most amount of eyes and in doing so, help the most amount of metaverse user was to make it something similar to #DOGE & #SHIB which caught huge mainstream attention. What better fit than Zuckerberg, the founder of META –explorers of the metaverse and of course he is also deeply involved in the ZUCKcommunity. This way, we have the attention of the meme coin investors as well as the ZUCK community to create one giant combined positive community involving ZUCK, meme coins & the legend that is Zuckerberg.ZuckMeta is the first Zuckerberg's meme,and it is an open-world metaverse.Zuckerberg's favorite crypto pet is a goat named Max，we have created 9,900 MAX and 100 Statue of Liberty that exist in NFT form..
             </p>
         </div>
     </div>
@@ -199,13 +199,19 @@
             <div class="maxInfo">
                 <h2 class="maxTitle">Max, max, max!</h2>
                 <p class="maxInfoText bigfont">The MAX NFT</p>
-                <p class="maxInfoText">Till now, many NFTs have been created for reasons such as hype and have only been created as art and a picture in hopes they become valuable. MAX NFT are built to be valuable. Only 10,000 born，sold in 10 rounds, and all of ZUCKs in each round will be destroyed in batches.
+                <p class="maxInfoText">MAX NFTs are built to be valuable. Only 9,900 MAX born，sold in 10 rounds, and all of ZUCKs in each round will be destroyed in batches.At the same time, in order to pay tribute to ZUCKDAO, we also designed 100 NFTs of the Statue of Liberty, symbolizing freedom, equality and autonomy.
+                    <br>10,000 ZUCK NFTs are divided into 5 types:
+                    <br>Crazy MAX: 7000
+                    <br>Mad  MAX:  1900
+                    <br>King MAX:  900
+                    <br>Mars MAX:  100
+                    <br>the Statue of Liberty: 100
                     <br><br>
                     What can a MAX NFT do?
-                    <br>1. Reduce ZUCK single transaction tax slippage
-                    <br>2. Obtain ZUCKSWAP's fee dividend privilege
-                    <br>3. Obtain the governance privileges of ZUCKDAO
-                    <br>4. Get dividends from ZUCK Mammon</p>
+                    <br>1. Get ZUCK long-term transaction fees BNB dividends
+                    <br>2. Get ZUCKSWAP's fee dividend privilege
+                    <br>3. Get the governance privileges of ZUCKDAO
+                    <br>4. Get rewards from the ZUCK Mammon pool</p>
             </div>
             <div class="maxImgList">
                 <div class="maxImgItem"><img src="../assets/home_max1.gif"></div>
@@ -915,22 +921,22 @@
           display:flex;
           justify-content: space-between;
           .maxInfo{
-              width:45%;
+              width:50%;
               .maxTitle{
-                font-size: 70px;
+                font-size: 60px;
                 font-weight: bold;
                 color: #FCDAFF;
                 line-height: 55px;
                 background: linear-gradient(90deg, #EF2AFE 0%, #6E33FD 100%);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
-                padding:36px 0 20px;
+                padding:0 0 20px;
               }
               .maxInfoText{
-                font-size: 20px;
+                font-size: 22px;
                 font-weight: bold;
                 color: #FCDAFF;
-                line-height: 40px;
+                line-height: 30px;
                 &.bigfont{
                     font-size:32px;
                     padding-bottom:20px;
@@ -1562,7 +1568,7 @@
       .maxNftPanel{
           background:url(../assets/home_bg5m.png) no-repeat center;
             background-size:cover;
-            height:930px;
+            height:1060px;
             .maxNftCon{
                 flex-wrap: wrap;
                 flex-direction: column-reverse;
