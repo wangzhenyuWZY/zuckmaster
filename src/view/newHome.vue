@@ -64,6 +64,8 @@
                 <span>（{{number?number:0}}/MAX）</span><span>Total:<span class="total-price">{{totalPrice}} ZUCK</span></span>
             </div>
             <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">{{isApproved?'Mint Now':'Approve ZUCK'}}</el-button>
+            <router-link to="/max" class="mymaxLink"><el-button class="mint-btn">My MAX</el-button></router-link>
+            
             <!-- <el-button class="mint-btn" @click="checkMint" :loading="isDoing" :disabled="isDoing">Mint Now</el-button> -->
         </div>
       </div>
@@ -610,7 +612,11 @@
               color: #FCDAFF;
               width:100%;
               padding:0;
-          }  
+          } 
+          .mymaxLink{
+              margin-top:10px;
+              display:block;
+          } 
       }
     }
   }
@@ -1935,6 +1941,14 @@
                 if (parseInt(this.myNftBalance) + parseInt(this.number) > 5) {
                     ElMessage({
                         message: 'Hold up to 5',
+                        type: 'error',
+                    })
+                    return
+                }
+                let mintableAmount = await this.eth.c.zuckNft.mintableAmount()
+                if(parseInt(this.number) > (9900 - parseInt(mintableAmount)) ){
+                    ElMessage({
+                        message: 'The remaining number in this round is ' + mintableAmount,
                         type: 'error',
                     })
                     return

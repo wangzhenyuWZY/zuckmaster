@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <Header @toId="toId" :active="navActive"/> 
+        <Header :active="navActive"/> 
         <div class="basiCon">
             <div class="layerCon">
                 <h2 class="title">Your NFT digital identity</h2>
@@ -78,7 +78,7 @@
                             <div class="claimImg"><img src="../assets/claimImg.webp"></div>
                             <div class="claimInfo">
                                 <p>Claim Your dividends of $ZUCK transaction fees</p>
-                                <p>BALANCE: <span>2 BNB</span></p>
+                                <p>BALANCE: <span>? BNB</span></p>
                                 <div class="btn" @click="comsoon">CLAIM</div>
                             </div>
                         </div>
@@ -557,7 +557,7 @@
                 eth:{},
                 nftAddr:"",
                 myNft:[],
-                navActive:0
+                navActive:6
             }
         },
         methods: {
@@ -574,28 +574,6 @@
                     console.log('Copied to clipboard')
                 } catch (e) {
                     console.error(e)
-                }
-            },
-            toId(i){
-                this.navActive = i
-                if(i == 0){
-                    let elm = document.getElementById('Home')
-                    elm.scrollIntoView(true)
-                }else if(i == 1){
-                    let elm = document.getElementById('Mint')
-                    elm.scrollIntoView(true)
-                }else if(i == 2){
-                    let elm = document.getElementById('Tokenomics')
-                    elm.scrollIntoView(true)
-                }else if(i == 3){
-                    let elm = document.getElementById('NTF')
-                    elm.scrollIntoView(true)
-                }else if(i == 4){
-                    let elm = document.getElementById('Metaverse')
-                    elm.scrollIntoView(true)
-                }else if(i == 5){
-                    let elm = document.getElementById('RoadMap')
-                    elm.scrollIntoView(true)
                 }
             },
             async getInfos(){
