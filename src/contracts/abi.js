@@ -12,9 +12,10 @@ const addrKey = [
   'zuckNft'
 ]
 export const prodAddrs = fillZeroAddr({
-  zuckToken: '0x03abf81d33e675b7df45ce832b1269cf7a4b3269',
+  // zuckToken: '0x03abf81d33e675b7df45ce832b1269cf7a4b3269',
+  zuckToken: '0xaf589673f061b3f9Fa9C401d828D753593D68280',
   zuckFactory:'0xa5Dad7F858e2B0D3d348872d1786039534c61594',
-  zuckNft:'0xE1F5Ee1972B2f41a5A94acEdEf3598f40C1A7162'
+  zuckNft:'0x625Bfff43285a362DB304daa182ebEB7130f3D24'
 })
 
 export const testAddrs = fillZeroAddr({
